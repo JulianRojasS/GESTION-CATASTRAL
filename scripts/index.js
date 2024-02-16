@@ -32,15 +32,11 @@ $(document).ready(()=> {
         e.preventDefault()
         if (validateRequiredData(["table", "column", "value"])) {
             if ($("#table").val() == "ric_interesado") {
-                const value = $("#value").val()
-                var url = `http://localhost:3000/interesadosByLike/${$("#column").val()}/${value}`
-                console.log(url)
                 $.ajax({
-                    url: url,
+                    url: `http://localhost:3000/interesadosByLike/${$("#column").val()}/${$("#value").val()}`,
                     type: "POST",
                     datatype: "JSON",
                     success: (res) => {
-                        console.log(res)
                         if (document.body.childNodes.length <=  13) {
                             const results = document.createElement("p")
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
@@ -57,11 +53,8 @@ $(document).ready(()=> {
                     }
                 })
             }  else if ($("#table").val() == "ric_predio") {
-                const value = $("#value").val()
-                var url = `http://localhost:3000/prediosByLike/${$("#column").val()}/${value}`
-                console.log(url)
                 $.ajax({
-                    url: url,
+                    url: `http://localhost:3000/prediosByLike/${$("#column").val()}/${$("#value").val()}`,
                     type: "POST",
                     datatype: "JSON",
                     success: (res) => {
@@ -83,6 +76,14 @@ $(document).ready(()=> {
             }
         }
     }) 
+
+    $("#bg-modal").on("click", () => {
+        $("#modal")[0].style.display = "none"
+    })
+
+    $("#close-modal").on("click", ()=> {
+        $("#modal")[0].style.display = "none"
+    })
 })
 
 
@@ -130,9 +131,16 @@ function createTable (res) {
                 const matricula_inmobiliaria = document.createElement("td")
                 matricula_inmobiliaria.innerHTML = e.matricula_inmobiliaria
                 tr.appendChild(matricula_inmobiliaria)
+                const button = document.createElement("td")
                 const see = document.createElement("button")
                 see.innerHTML = "Ver mas"
-                tr.appendChild(see)
+                button.appendChild(see)
+                see.addEventListener("click", () => {
+                    const modal = document.getElementById("modal-body")
+                    modal.innerHTML = ""
+                    document.getElementById("modal").style.display = "block"
+                })
+                tr.appendChild(button)
                 body.appendChild(tr)
             })
             table.appendChild(body)
@@ -155,30 +163,68 @@ function createTable (res) {
                 const documento = document.createElement("td")
                 documento.innerHTML = e.documento_identidad
                 tr.appendChild(documento)
+                const button = document.createElement("td")
                 const see = document.createElement("button")
                 see.innerHTML = "Ver mas"
+                button.appendChild(see)
                 see.addEventListener("click", (x) => {
-                    const modal = document.getElementById("modal")
+                    const modal = document.getElementById("modal-body")
                     modal.innerHTML = ""
+                    document.getElementById("modal").style.display = "block"
                     $.ajax({
-                        url: `http://localhost:3000/interesadosByLike/nombre/${e.nombre}`,
+                        url: `http://localhost:3000/interesadosDetalleConsulta/${e.t_id}`,
                         type: "POST",
                         datatype: "JSON",
                         success: (res) => {
-                            console.log(res[0])
                             const nombre = document.createElement("h2")
                             nombre.innerText = res[0].nombre
                             modal.appendChild(nombre)
                             const tipodocumento = document.createElement("p")
-                            tipodocumento.innerText = res[0].tipo_documento
+                            tipodocumento.innerText = res[0].dispname
                             modal.appendChild(tipodocumento)
                             const dociden = document.createElement ("p")
                             dociden.innerText = res[0].documento_identidad
                             modal.appendChild(dociden)
+                            const modal_table = document.createElement("table")
+                            const modal_thead = document.createElement("thead")
+                            modal_table.appendChild(modal_thead)
+                            const ths = ["Codigo Homologado", "Numero Predial", "Numero predial Anterior", "Matricula inmobiliaria"]
+                            ths.forEach((e) => {
+                                const th = document.createElement("th")
+                                th.innerHTML = e
+                                modal_thead.appendChild(th)
+                            })
+                            const modal_tbody = document.createElement("tbody")
+                            $.ajax({
+                                url: `http://localhost:3000/predioDetalleInteresado/${e.t_id}`,
+                                type: "POST",
+                                datatype: "JSON",
+                                success: (tabledata) => {
+                                    tabledata.forEach((e) => {
+                                        const tr = document.createElement("tr")
+                                        const ch = document.createElement("td")
+                                        ch.innerHTML = e.codigo_homologado
+                                        tr.appendChild(ch)
+                                        const np = document.createElement("td")
+                                        np.innerHTML = e.numero_predial
+                                        tr.appendChild(np)
+                                        const npa = document.createElement("td")
+                                        npa.innerHTML = e.numero_predial_anterior
+                                        tr.appendChild(npa)
+                                        const mi = document.createElement("td")
+                                        mi.innerHTML = e.matricula_inmobiliaria
+                                        tr.appendChild(mi)
+                                        modal_tbody.appendChild(tr)
+                                    })
+                                    modal_table.appendChild(modal_tbody)
+                                    modal.appendChild(modal_table)
+                                }
+                            })
+                            
                         }
                     })
                 })
-                tr.appendChild(see)
+                tr.appendChild(button)
                 body.appendChild(tr)
             })
             table.appendChild(body)
