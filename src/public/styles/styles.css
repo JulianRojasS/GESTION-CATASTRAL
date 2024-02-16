@@ -113,4 +113,59 @@ body {
 
 .formulario__grupo-incorrecto .formulario__input {
 	border: 3px solid #bb2929;
+    padding: 0;
+    margin: 0;
+}
+
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#modal span {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.9;
+  }
+
+#modal #modal-body {
+    text-align: center;
+    background-color: #fefefe;
+    margin: 10% 25%;
+    width: 50%;
+    height: 300px;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    border-radius: 15px;
+  }
+
+ #modal span button {
+    width: 40px;
+    font-size: 20px;
+    height: 40px;
+    background-color: white;
+    margin: 8% 74%;
+    border: 1px solid;
+    border-radius: 50%;
+  }  
+
+
+table {
+    width: 95%;
+    text-align: center;
+}
+
+table th {
+    border: 1px solid;
+}
+
+table td {
+    border: 1px solid;
 }
