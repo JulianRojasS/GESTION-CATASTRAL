@@ -136,9 +136,7 @@ function createTable (res) {
                 see.innerHTML = "Ver mas"
                 button.appendChild(see)
                 see.addEventListener("click", () => {
-                    const modal = document.getElementById("modal-body")
-                    modal.innerHTML = ""
-                    document.getElementById("modal").style.display = "block"
+                    window.open("http://localhost:3000/predio/"+ e.t_id)
                 })
                 tr.appendChild(button)
                 body.appendChild(tr)
