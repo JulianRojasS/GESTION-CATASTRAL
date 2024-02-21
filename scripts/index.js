@@ -1,5 +1,4 @@
 $(document).ready(()=> {
-    console.log(document.body.childNodes.length)
     $("#table").on("change", (e) => {
         const column = $("#column")[0]
         column.innerHTML = ""
