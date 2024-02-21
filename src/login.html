@@ -5,40 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor Catastral Multiproposito</title>
     <link rel="stylesheet" href="/src/public/styles/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+<header class="header">
+    <h1>Gestor Catastral</h1>
+</header>
 
 <body>
-
-    <h1>Inicio de Sesion</h1>
     <div class="P_formulario">
-        <form action="" class="formulario" id="formulario">
-
-            <div class="formulario__grupo" id="grupo__correo">
-                <label for="correo" class="formulario__label">Correo Electrónico</label>
-                <div class="div_input">
-                    <input type="email" class="formulario__input" name="correo" id="correo" placeholder="correo@correo.com">
-                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
-                </div>
-                <p class="formulario__input-error">El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.</p>
-            </div>
+        
+        <form action="http://localhost:3000/login" method="POST" class="formulario" id="formulario">
+            <div class="formulario__contenido">
+                <div class="formulario__datos">
+                    <h2>Inicio de Sesión</h2>
+                    <div class="formulario__grupo" id="grupo__correo">
+                        <label for="correo" class="formulario__label">Correo Electrónico</label>
+                        <div class="div_input">
+                            <input type="email" class="formulario__input" name="correo" id="correo" placeholder="Correo@correo.com">
+                            <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        </div>
+                        <p class="formulario__input-error">El correo solo puede contener letras, números, puntos, guiones y guion bajo.</p>
+                    </div>
+                    
             
-    
-            <div class="formulario__grupo" id="grupo__password">
-                <label for="password" class="formulario__label">Contraseña</label>
-                <div class="div_input">
-                    <input type="password" class="formulario__input" name="password" id="password" placeholder="**********">
-                    <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    <div class="formulario__grupo" id="grupo__password">
+                        <label for="password" class="formulario__label">Contraseña</label>
+                        <div class="div_input">
+                            <input type="password" class="formulario__input" name="password" id="password" placeholder="**********">
+                            <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                        </div>
+                        <p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+                    </div>
+            
+                    <div class="formulario__grupo formulario__grupo-btn-enviar">
+                        <button type="submit" class="formulario__btn">Enviar</button>
+                    </div>
                 </div>
-                <p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+                <img src="https://img.freepik.com/foto-gratis/disparo-vertical-hermoso-terreno-montanoso-cubierto-vegetacion-verde_181624-37103.jpg" alt="Imagen de correo" class="formulario__imagen">
             </div>
-    
-            <div class="formulario__grupo formulario__grupo-btn-enviar">
-                <button type="submit" class="formulario__btn">Enviar</button>
-            </div>
-    
         </form>
-
+        
+        
     </div>
+
+    <footer class="footer">
+        Todos los derechos reservados &copy; 2024
+    </footer>
     
 
     <script src="/scripts/formulario.js"></script>

@@ -1,29 +1,97 @@
 * {
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
 
-body {
-	font-family: 'Roboto', sans-serif;
-	background: #E5E5E5;
+
+/*header */
+.header {
+    background-color: #414141; /* Color de fondo del header */
+    color: #fff; /* Color del texto */
+    padding: 4px; /* Espaciado interno */
 }
 
-.P_formulario{
+.header h1 {
+   text-align: center; /* Elimina el margen superior e inferior del título */
+   font-family: 'Raleway', sans-serif;
+}
+
+nav ul {
+    list-style-type: none; /* Elimina los estilos de lista (viñetas) */
+    padding: 0; /* Elimina el relleno predeterminado */
+    margin: 0; /* Elimina el margen predeterminado */
+}
+
+nav ul li {
+    display: inline; /* Muestra los elementos de lista en línea */
+    margin-right: 20px; /* Espaciado entre los elementos de lista */
+}
+
+nav ul li:last-child {
+    margin-right: 0; /* Elimina el margen derecho del último elemento de lista */
+}
+
+nav ul li a {
+    color: #fff; /* Color del texto de los enlaces */
+    text-decoration: none; /* Elimina la subrayado predeterminado de los enlaces */
+}
+
+/* fin header */
+body {
+	font-family: 'Raleway', sans-serif;
+	background-color: #f0f0f0;
+}
+
+.P_formulario {
+	margin-top: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.formulario {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 20px;
+h2{
+	text-align: center;
+	margin-bottom: 30px;
+    font-family: 'Quicksand', sans-serif;
 }
 
-.form_label {
+.formulario__contenido {
+    display: flex;
+    align-items: center;
+}
+
+.formulario__imagen {
+    max-width: 220px; /* Ajusta el ancho máximo de la imagen según tus necesidades */
+    margin-left: 10px; /* Espacio entre la imagen y el formulario */
+}
+
+.formulario__datos {
+    flex: 1; /* El formulario ocupa todo el espacio restante */
+}
+
+#logo{
+    width: 6%;
+    display: block; /* Asegura que la imagen sea un elemento de bloque */
+    margin-left: auto; /* Coloca el margen izquierdo automático */
+    margin-right: auto; /* Coloca el margen derecho automático */
+}
+
+
+.formulario {
+    width: 80%; 
+    max-width: 36%;
+    background-color: white; 
+	border: solid 1px #E5E5E5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+}
+
+.formulario__label{
 	display: block;
-	font-weight: 700;
-	padding: 10px;
-	cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .div_input {
@@ -31,14 +99,14 @@ body {
 }
 
 .formulario__input {
-	width: 100%;
-	background: #fff;
-	border: 3px solid transparent;
-	border-radius: 3px;
-	height: 45px;
-	line-height: 45px;
-	padding: 0 40px 0 10px;
-	transition: .3s ease all;
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
+    border-image: initial;
+    border-radius: 5px;
 }
 
 .formulario__input-error {
@@ -60,19 +128,22 @@ body {
 	opacity: 0;
 }
 
+.formulario__grupo {
+    margin-bottom: 20px; 
+}
+
 .formulario__grupo-btn-enviar {
 	grid-column: span 2;
 }
 
 .formulario__btn {
-	height: 45px;
-	line-height: 45px;
-	width: 30%;
-	background: #000;
+	line-height: 40px;
+	width: 20%;
+	background: #414141;
 	color: #fff;
 	font-weight: bold;
 	border: none;
-	border-radius: 3px;
+	border-radius: 16px;
 	cursor: pointer;
 	transition: .1s ease all;
 }
@@ -117,6 +188,16 @@ body {
     margin: 0;
 }
 
+.footer {
+    background-color: #4b4b4b; 
+    color: white;
+    text-align: center;
+    padding: 5px; 
+    position: fixed; 
+    width: 100%; 
+    bottom: 0; 
+}
+
 #modal {
     position: fixed;
     top: 0;
@@ -132,7 +213,7 @@ body {
     height: 100%;
     position: fixed;
     opacity: 0.9;
-  }
+}
 
 #modal #modal-body {
     text-align: center;
@@ -144,9 +225,9 @@ body {
     position: fixed;
     flex-direction: column;
     border-radius: 15px;
-  }
+}
 
- #modal span button {
+#modal span button {
     width: 40px;
     font-size: 20px;
     height: 40px;
@@ -154,7 +235,7 @@ body {
     margin: 8% 74%;
     border: 1px solid;
     border-radius: 50%;
-  }  
+}  
 
 
 table {
@@ -169,3 +250,6 @@ table th {
 table td {
     border: 1px solid;
 }
+
+
+
