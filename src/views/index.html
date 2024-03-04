@@ -3,9 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="crossorigin="anonymous"></script>
     <title>Gestor Catastral Multiproposito</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../public/styles/styles.css">
 </head>
 <body>
+    <header class="header">
+        <img src="../public/img/logo.png" width="50px" alt="">
+        <h2 class="modulo-consultas-tittle">Usuario</h2>
+    </header>
+
+    <section style="display: flex; justify-content: center;">
+        <section class="user-boxes">
+            <h2>Información de Usuario</h2>
+            <div>
+                <img src="../public/img/user.png" width="100" alt="">
+                <input type="text" id="nombre" disabled placeholder="Nombre">
+                <input type="text" id="email" disabled placeholder="Correo">
+                <input type="text" id="rol" disabled placeholder="Rol">
+                <input type="password" id="password" placeholder="Contraseña Nueva">
+                <input type="password" id="passwordConf" placeholder="Confirmar Contraseña">
+                <button id="actualizar" >Editar Información</button>
+                <button id="actualizar-usuario" >Actualizar</button>
+                <button id="cancelar-actualizacion" >Cancelar</button>
+                <button id="actualizar-contrasenia">Actualizar Contraseña</button>
+                <button id="cerrar-sesion">Cerrar Sesión</button>
+            </div>
+        </section>
     
+        <section class="user-boxes" style="height: 350px;">
+            <h2>Módulos</h2>
+            <div>
+                <a href="./consultas.html">Consultas</a>
+                <a href="#">Radicacion</a>
+                <a href="#">Asignación</a>
+                <a href="./ejecucion.html">Ejecución</a>
+                <a href="#">Historial</a>
+            </div>
+        </section>
+    </section>
+
+    <footer class="footer">
+        Todos los derechos reservados &copy; 2024
+    </footer>
+    <script type="module" src="../../scripts/unmodule.js"></script>
+    <script type="module" src="../../scripts/index.js"></script>
 </body>
 </html>
