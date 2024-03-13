@@ -26,7 +26,6 @@ $(document).ready(()=> {
             column.appendChild(option)
         }
     })
-
     $("#send").on("click", (e) => {
         e.preventDefault()
         if (validateRequiredData(["table", "column", "value"])) {
@@ -49,7 +48,7 @@ $(document).ready(()=> {
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                             results.id = "resultados"
                             document.body.appendChild(results)
-                            createTable(res, $("#table").val())
+                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
                         }
                     }
                 })
@@ -72,14 +71,13 @@ $(document).ready(()=> {
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                             results.id = "resultados"
                             document.body.appendChild(results)
-                            createTable(res, $("#table").val())
+                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
                         }
                     }
                 })
             }
         }
     }) 
-
     $("#bg-modal").on("click", () => {
         $("#modal")[0].style.display = "none"
         document.body.style.overflow = "auto"
@@ -105,7 +103,7 @@ function validateRequiredData (idList) {
     }
 }
 
-export default function createTable (res, type) {
+export default function createTable (res, type, success_predio) {
     const table = document.createElement("table")
     const head = document.createElement("thead")
     if (type == "ric_predio") {
@@ -137,7 +135,7 @@ export default function createTable (res, type) {
                 see.innerHTML = "Ver mas"
                 button.appendChild(see)
                 see.addEventListener("click", () => {
-                    window.open("http://localhost:3000/predio/"+ e.t_id)
+                    window.open(success_predio+ e.t_id)
                 })
                 tr.appendChild(button)
                 body.appendChild(tr)
@@ -237,12 +235,11 @@ export default function createTable (res, type) {
                                         see.style.backgroundColor = "black"
                                         const seeButton = document.createElement("button")
                                         seeButton.addEventListener("click", () => {
-                                            window.open("http://localhost:3000/predio/"+e.predio, "_blank");
+                                            window.open(success_predio+e.predio, "_blank");
                                         })
                                         seeButton.innerText = "Ver mas"
                                         seeButton.target = "_blank"
                                         see.appendChild(seeButton)
-                    
                                         tr.appendChild(see)
                                         modal_tbody.appendChild(tr)
                                     })
