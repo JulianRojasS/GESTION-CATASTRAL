@@ -895,7 +895,6 @@ function crearDerecho (interesado, derecho, tipo) {
     })
     return derecho
 }
-
 function validacion_inputs (inputs) {
     const nodes = inputs.childNodes
     var validations = 0
