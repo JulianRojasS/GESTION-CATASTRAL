@@ -18,7 +18,7 @@ $(document).ready(()=> {
                             datatype: "JSON",
                             success: (interesados) => {
                                 interesados_actuales(interesados)
-                                interesados_nuevos(res[0], interesadosnuevos)
+                                interesados_nuevos(interesadosnuevos)
                                 derechonuevo(derecho)
                                 fuenteadministrativanueva(fuenteadministrativa)
                                 /// Enviar Respuesta
@@ -352,6 +352,7 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
     const inputs_tr = document.createElement("tr")
     const button_add = document.createElement("button")
     button_add.innerText = "+"
+    var interesadoretornar = []
     button_add.addEventListener("click", () => {
         if (validacion_inputs(inputs_tr)) {
             var isIn = false;
@@ -645,6 +646,9 @@ async function derechonuevo_validacion (derecho) {
 
 async function fuenteadministrativanueva (fuenteadministrativa) {
     const form = document.createElement("form")
+    const fuenteadministrativanueva = document.createElement("h2")
+    fuenteadministrativanueva.innerText="Fuente Administrativa Nueva"
+    form.appendChild(fuenteadministrativanueva)
     form.addEventListener("submit", (e) => e.preventDefault())
     const table = document.createElement("table")
     const thead = document.createElement("thead")
