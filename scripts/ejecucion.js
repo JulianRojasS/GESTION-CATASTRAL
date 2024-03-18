@@ -1,6 +1,7 @@
 $(document).ready(()=> {
     var interesadosnuevos = []
     var derecho = []
+    var derecho_actual = []
     var fuenteadministrativa = []
     $("#search_predio").on("submit", (e) => {
         e.preventDefault()
@@ -19,7 +20,7 @@ $(document).ready(()=> {
                             success: (interesados) => {
                                 interesados_actuales(interesados)
                                 interesados_nuevos(interesadosnuevos)
-                                derechonuevo(derecho)
+                                derechonuevo(derecho, derecho_actual)
                                 fuenteadministrativanueva(fuenteadministrativa)
                                 /// Enviar Respuesta
                                 const send = document.createElement("button")
@@ -29,7 +30,7 @@ $(document).ready(()=> {
                                             if (fuenteadministrativa.length > 0) {
                                                 if (interesadosnuevos.length < 2) {
                                                     if (interesadosnuevos[0].existencia) {
-                                                        derecho[0] = crearDerecho(interesadosnuevos[0].interesado, derecho[0], "unico")
+                                                        derecho[0] = crearDerecho(interesadosnuevos[0].interesado, derecho_actual[0], "unico")
                                                     } else {
                                                         const data = interesado_objeto_respuesta(interesadosnuevos[0].interesado)
                                                         $.ajax({
@@ -277,9 +278,10 @@ $(document).ready(()=> {
                         type: "GET",
                         datatype: "JSON",
                         success: (derechoactual) => {
-                            derecho.push(derechoactual[0])                            
+                            derecho_actual.push(derechoactual[0])                            
                         }
-                    })    
+                    })  
+                    console.log(derecho_actual)  
                 }
             })
         } else {
@@ -584,7 +586,8 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
     return inputs_tr;
 }
 
-async function derechonuevo (derecho) {
+async function derechonuevo (derecho, derecho_actual) {
+    console.log(derecho, derecho_actual)
     const form = document.createElement("form")
     const derecho_tittle = document.createElement("h2")
     derecho_tittle.innerText = "Derecho"
@@ -598,14 +601,15 @@ async function derechonuevo (derecho) {
         th.innerText = o
         thead.appendChild(th)
     })
-    tbody.appendChild(await derechonuevo_validacion(derecho))
+    tbody.appendChild(await derechonuevo_validacion(derecho, derecho_actual))
     table.appendChild(thead)
     table.appendChild(tbody)
     form.appendChild(table)
     document.getElementById("derecho-nuevo").appendChild(form)
 } 
 
-async function derechonuevo_validacion (derecho) {
+async function derechonuevo_validacion (derecho, derecho_actual) {
+    console.log(derecho, derecho_actual)
     const inputs_tr = document.createElement("tr")
     const td_input_guardar = document.createElement("td")
     const guardar = document.createElement("button")
@@ -620,12 +624,13 @@ async function derechonuevo_validacion (derecho) {
                     type: "GET",
                     datatype: "JSON",
                     success: (res) => {
-                        derecho[0].ric_derechotipo = res
+                        derecho_actual[0].ric_derechotipo = res
                     }
                 })
-                derecho[0].fecha_inicio_tenencia = input_fit.value
-                derecho[0].fraccion_derecho = parseFloat(input_fraccion.value)
-                derecho[0].descripcion = input_descripcion.value
+                derecho_actual[0].fecha_inicio_tenencia = input_fit.value
+                derecho_actual[0].fraccion_derecho = parseFloat(input_fraccion.value)
+                derecho_actual[0].descripcion = input_descripcion.value
+                derecho.push(derecho_actual[0])
                 alerta("Correcto!", "El derecho se agrego de manera correcta", "green")
             } else {
                 alerta("Fraccion", "Ingrese un valor ente (0.0000000000 a 1.0000000000).", "red")
