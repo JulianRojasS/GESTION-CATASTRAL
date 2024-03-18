@@ -669,6 +669,9 @@ async function derechonuevo_validacion (derecho) {
 
 async function fuenteadministrativanueva (fuenteadministrativa) {
     const form = document.createElement("form")
+    const fuenteadministrativa_title = document.createElement("h2")
+    fuenteadministrativa_title.innerText = "Fuente Administrativa"
+    form.appendChild(fuenteadministrativa_title)
     form.addEventListener("submit", (e) => e.preventDefault())
     const table = document.createElement("table")
     const thead = document.createElement("thead")
@@ -741,6 +744,8 @@ async function fuenteadministrativanueva_validacion (tbody, fuenteadministrativa
             }
             const data = fuenteadministrativa_objeto_respuesta(fuente)
             fuenteadministrativa.push(data)
+        } else {
+            alerta("Error!", "Debes completar todos los campos", "red")
         }
     })
     td_agregar.appendChild(agregar)
