@@ -81,6 +81,11 @@ $(document).ready(()=> {
                                                                         ric_fuenteadministrativa: newfuente,
                                                                         ric_predio: res[0]
                                                                     }),
+                                                                    success: (response) => {
+                                                                        if (response.t_id != null) {
+                                                                            alerta("Correcto!", "Los datos se actualizaron", "green")
+                                                                        }
+                                                                    },
                                                                     contentType: "application/json",
                                                                 })
                                                             }
@@ -89,7 +94,6 @@ $(document).ready(()=> {
                                                 } else {
                                                     interesadosnuevos.forEach((i) => {
                                                         if (i.existencia) {
-                                                            alert("existe")
                                                         } else {
                                                             const data = interesado_objeto_respuesta(i.interesado)
                                                             $.ajax({
@@ -239,6 +243,11 @@ $(document).ready(()=> {
                                                                             ric_fuenteadministrativa: newfuente,
                                                                             ric_predio: res[0]
                                                                         }),
+                                                                        success: (response) => {
+                                                                            if (response.t_id != null) {
+                                                                                alerta("Correcto!", "Los datos se actualizaron", "green")
+                                                                            }
+                                                                        },
                                                                         contentType: "application/json",
                                                                     })
                                                                 }
@@ -247,13 +256,13 @@ $(document).ready(()=> {
                                                     }
                                                 }
                                             } else {
-                                                alert("Aun no ha ingresado ninguna fuente administrativa")
+                                                alerta("Error", "Aun no ha ingresado ninguna fuente administrativa", "red")
                                             }
                                         } else {
-                                            alert("Aun no ha ingresado nigun derecho")
+                                            alerta("Error", "Aun no ha ingresado nigun derecho", "red")
                                         }
                                     } else {
-                                        alert("Aun no ha ingresado ningun interesado")
+                                        alerta("Error", "Aun no ha ingresado ningun interesado", "red")
                                     }
                                 })
                                 send.innerText = "Guardar Cambios"
@@ -261,23 +270,37 @@ $(document).ready(()=> {
                             }
                         })
                     } else {
-                        alert("no se encontraron resultados")
+                        alerta("Error", "no se encontraron resultados", "red")
                     }
                     $.ajax({
                         url: "http://localhost:3000/derechosPredio/"+ res[0].t_id,
                         type: "GET",
                         datatype: "JSON",
                         success: (derechoactual) => {
-                            derecho.push(derechoactual[0])
+                            derecho.push(derechoactual[0])                            
                         }
                     })    
                 }
             })
         } else {
-            alert("Ingresa un numero predial correcto")
+            alerta("Error en busqueda","Ingresa un numero predial correcto", "Orange")
         }
     })
+
 })
+
+function alerta (titulo, mensaje, color) {
+    const msj = document.getElementById("msj")
+    msj.childNodes[1].innerText = titulo
+    msj.childNodes[3].innerText = mensaje
+    msj.style.backgroundColor = color
+    msj.style.animation = "moverElemento 1s forwards"
+    const esconder = () => {
+        const msj = document.getElementById("msj")
+        msj.style.animation = "esconderElemento 1s forwards"
+    }
+    setTimeout(esconder, 2000)
+}
 
 function interesados_actuales (res) {
     const interesados_actuales_tittle = document.createElement("h2")
@@ -434,10 +457,10 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
                 }
                 body.appendChild(tr)
             } else {
-                alert("El interesado ya se encuentra en el listado de interesados nuevos")
+                alerta("Error en interesados nuevos", "Ya ingresaste ese interesado", "orange")
             }
         } else {
-            alert("Debe completar todos los campos")
+            alerta("Error", "Debe completar todos los campos", "red")
         }
     })
     inputs_tr.appendChild(button_add)
@@ -603,11 +626,12 @@ async function derechonuevo_validacion (derecho) {
                 derecho[0].fecha_inicio_tenencia = input_fit.value
                 derecho[0].fraccion_derecho = parseFloat(input_fraccion.value)
                 derecho[0].descripcion = input_descripcion.value
+                alerta("Correcto!", "El derecho se agrego de manera correcta", "green")
             } else {
-                alert("El valor de la facción debe ser ente (0.0000000000 a 1.0000000000).")
+                alerta("Fraccion", "Ingrese un valor ente (0.0000000000 a 1.0000000000).", "red")
             }
         } else {
-            alert("Debe completar todos los campos")
+            alerta("Error", "Debe completar todos los campos", "red")
         }
     })
     inputs_tr.appendChild(td_input_guardar)
@@ -721,6 +745,8 @@ async function fuenteadministrativanueva_validacion (tbody, fuenteadministrativa
             }
             const data = fuenteadministrativa_objeto_respuesta(fuente)
             fuenteadministrativa.push(data)
+        } else {
+            alerta("Error!", "Debes completar todos los campos", "red")
         }
     })
     td_agregar.appendChild(agregar)

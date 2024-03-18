@@ -422,6 +422,37 @@ table td a{
     text-decoration: none;
 }
 
-
-
-
+/* Alertas */
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  @keyframes moverElemento {
+      0% {
+        transform: translateX(-300px);
+      }
+      100% {
+        transform: translateX(310px);
+      }
+  }
+  
+  @keyframes esconderElemento {
+      0% {
+        transform: translateX(300px);
+      }
+      100% {
+        transform: translateX(-300px);
+      }
+  }
+  
+  #msj {
+    left: -312px;
+    position: fixed;
+    float: left;
+    top: 10px;
+    padding: 2px     0 2px 10px;
+    width: 300px;
+    text-align: left;
+    border: 1px solid;
+  }
