@@ -1,4 +1,6 @@
+import { generarRegistro, alerta } from "./funciones_generales.js"
 $(document).ready(()=> {
+    const user = JSON.parse(sessionStorage.getItem("session"))
     var interesadosnuevos = []
     var derecho = []
     var derecho_actual = []
@@ -30,7 +32,8 @@ $(document).ready(()=> {
                                             if (fuenteadministrativa.length > 0) {
                                                 if (interesadosnuevos.length < 2) {
                                                     if (interesadosnuevos[0].existencia) {
-                                                        derecho[0] = crearDerecho(interesadosnuevos[0].interesado, derecho_actual[0], "unico")
+                                                        crearDerecho(interesadosnuevos[0].interesado, derecho[0], "unico")
+                                                        generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                     } else {
                                                         const data = interesado_objeto_respuesta(interesadosnuevos[0].interesado)
                                                         $.ajax({
@@ -38,7 +41,9 @@ $(document).ready(()=> {
                                                             type: "POST",
                                                             data: data,
                                                             success: (newinteresado) => {
-                                                                derecho[0] = crearDerecho(newinteresado, derecho[0], "unico")
+                                                                crearDerecho(newinteresado, derecho[0], "unico")
+                                                                generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
+                                                                generarRegistro(1, null, JSON.stringify(newinteresado), "Creación de interesado", user)
                                                             },
                                                             datatype: "text"
                                                         })
@@ -48,10 +53,13 @@ $(document).ready(()=> {
                                                         type: "GET",
                                                         datatype: "JSON",
                                                         success: (rrrs) => {
-                                                            rrrs.forEach((rrr) => {
+                                                            rrrs.forEach((rrr) => {                                                                
                                                                 $.ajax({
                                                                     url: "http://localhost:3000/eliminarCol_rrrfuente/"+rrr.t_id,
                                                                     type: "DELETE",
+                                                                    success: () => {
+                                                                        generarRegistro(6, null, JSON.stringify(rrr), "Eliminiación de rrrfuente", user)
+                                                                    }
                                                                 })
                                                             })
                                                         }
@@ -64,6 +72,7 @@ $(document).ready(()=> {
                                                             data: JSON.stringify(fuente),
                                                             contentType: "application/json",
                                                             success: (newfuente) => {
+                                                                generarRegistro(3, null, JSON.stringify(newfuente), "Creación de fuente administrativa", user)
                                                                 $.ajax({
                                                                     url: "http://localhost:3000/insertarCol_rrrfuente",
                                                                     type: "POST",
@@ -72,6 +81,9 @@ $(document).ready(()=> {
                                                                         ric_fuenteadministrativa: newfuente,
                                                                         ric_derecho: derecho[0]
                                                                     }),
+                                                                    success: (rrrfuente) => {
+                                                                        generarRegistro(6, null, JSON.stringify(rrrfuente), "Creación de rrrfuente", user)
+                                                                    },
                                                                     contentType: "application/json",
                                                                 })
                                                                 $.ajax({
@@ -84,6 +96,7 @@ $(document).ready(()=> {
                                                                     }),
                                                                     success: (response) => {
                                                                         if (response.t_id != null) {
+                                                                            generarRegistro(7, null, JSON.stringify(response), "Creación de unidad fuente", user)
                                                                             alerta("Correcto!", "Los datos se actualizaron", "green")
                                                                         }
                                                                     },
@@ -101,7 +114,10 @@ $(document).ready(()=> {
                                                                 url: "http://localhost:3000/interesadoInsertar",
                                                                 type: "POST",
                                                                 data: data,
-                                                                datatype: "text"
+                                                                datatype: "text",
+                                                                success: (newinteresado) => {
+                                                                    generarRegistro(1, null, JSON.stringify(newinteresado), "Creación de interesado", user)
+                                                                }
                                                             })
                                                         }
                                                         
@@ -109,9 +125,19 @@ $(document).ready(()=> {
                                                     if (derecho[0].ric_agrupacioninteresados != null) {
                                                         const agrupacion = derecho[0].ric_agrupacioninteresados
                                                         $.ajax({
-                                                            url: "http://localhost:3000/eliminarCol_miembrosByAgrupacion/"+ agrupacion.t_id,
-                                                            type: "DELETE",
-                                                        })
+                                                            url: "http://localhost:3000/col_miembrosAgrupacion/"+agrupacion.t_id,
+                                                            type: "POST",
+                                                            datatype: "JSON",
+                                                            success: (miembros) => {
+                                                                miembros.forEach((miembro) => {
+                                                                    generarRegistro(4, null, JSON.stringify(miembro), "Eliminación de miembro", user)
+                                                                })
+                                                                $.ajax({
+                                                                    url: "http://localhost:3000/eliminarCol_miembrosByAgrupacion/"+ agrupacion.t_id,
+                                                                    type: "DELETE"
+                                                                })
+                                                            }
+                                                        })                                                    
                                                         interesadosnuevos.forEach((i) => {
                                                             $.ajax({
                                                                 url: "http://localhost:3000/interesadoPorDocumento/"+i.interesado.documento_identidad,
@@ -128,14 +154,22 @@ $(document).ready(()=> {
                                                                             participacion: 1/interesadosnuevos.length
                                                                         }),
                                                                         contentType: "application/json",
-                                                                        success: (response) => {
-        
-                                                                        }
                                                                     })
                                                                 }
                                                             }) 
                                                         })
+                                                        $.ajax({
+                                                            url: "http://localhost:3000/col_miembrosAgrupacion/"+agrupacion.t_id,
+                                                            type: "POST",
+                                                            datatype: "JSON",
+                                                            success: (miembros) => {
+                                                                miembros.forEach((miembro) => {
+                                                                    generarRegistro(4, null, JSON.stringify(miembro), "Creación de miembro", user)
+                                                                })
+                                                            }
+                                                        })   
                                                         derecho[0] = crearDerecho(agrupacion, derecho[0], "agrupacion")
+                                                        generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                     } else {
                                                         var natrual = 0
                                                         var grupoempresarial = 0
@@ -178,6 +212,7 @@ $(document).ready(()=> {
                                                                     }),
                                                                     success: (agrupacion) => {
                                                                         /* Crear col_miebros interesados */
+                                                                        generarRegistro(5, null, JSON.stringify(agrupacion), "Creación de agrupación", user)
                                                                         interesadosnuevos.forEach((i) => {
                                                                             $.ajax({
                                                                                 url: "http://localhost:3000/interesadoPorDocumento/"+i.interesado.documento_identidad,
@@ -201,7 +236,18 @@ $(document).ready(()=> {
                                                                                 }
                                                                             }) 
                                                                         })
-                                                                        derecho[0] = crearDerecho(agrupacion, derecho[0], "agrupacion")
+                                                                        $.ajax({
+                                                                            url: "http://localhost:3000/col_miembrosAgrupacion/"+agrupacion.t_id,
+                                                                            type: "POST",
+                                                                            datatype: "JSON",
+                                                                            success: (miembros) => {
+                                                                                miembros.forEach((miembro) => {
+                                                                                    generarRegistro(4, null, JSON.stringify(miembro), "Creación de miembro", user)
+                                                                                })
+                                                                            }
+                                                                        })   
+                                                                        crearDerecho(agrupacion, derecho[0], "agrupacion")
+                                                                        generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                                     }
                                                                 })
                                                             }
@@ -210,11 +256,16 @@ $(document).ready(()=> {
                                                             url: "http://localhost:3000/col_rrrfuenteByDerecho/"+derecho[0].t_id,
                                                             type: "GET",
                                                             datatype: "JSON",
-                                                            success: (rrrs) => {
+                                                            success: (rrrs) => {                                                                
                                                                 rrrs.forEach((rrr) => {
                                                                     $.ajax({
                                                                         url: "http://localhost:3000/eliminarCol_rrrfuente/"+rrr.t_id,
                                                                         type: "DELETE",
+                                                                        success: (estado) => {
+                                                                            if (estado) {
+                                                                                generarRegistro(6, null, JSON.stringify(rrr), "Eliminación de rrrfuente", user)
+                                                                            }
+                                                                        }
                                                                     })
                                                                 })
                                                             }
@@ -226,6 +277,7 @@ $(document).ready(()=> {
                                                             data: JSON.stringify(fuente),
                                                             contentType: "application/json",
                                                             success: (newfuente) => {
+                                                                generarRegistro(3, null, JSON.stringify(newfuente), "Creación de fuente administrativa", user)
                                                                 $.ajax({
                                                                     url: "http://localhost:3000/insertarCol_rrrfuente",
                                                                     type: "POST",
@@ -234,6 +286,9 @@ $(document).ready(()=> {
                                                                         ric_fuenteadministrativa: newfuente,
                                                                         ric_derecho: derecho[0]
                                                                     }),
+                                                                    success: (rrrfuente) => {
+                                                                        generarRegistro(6, null, JSON.stringify(rrrfuente), "Creación de rrrfuente", user)
+                                                                    },
                                                                     contentType: "application/json",
                                                                 })
                                                                     $.ajax({
@@ -245,6 +300,7 @@ $(document).ready(()=> {
                                                                             ric_predio: res[0]
                                                                         }),
                                                                         success: (response) => {
+                                                                            generarRegistro(7, null, JSON.stringify(response), "Creacion de unidad fuente", user)
                                                                             if (response.t_id != null) {
                                                                                 alerta("Correcto!", "Los datos se actualizaron", "green")
                                                                             }
@@ -291,18 +347,7 @@ $(document).ready(()=> {
 
 })
 
-function alerta (titulo, mensaje, color) {
-    const msj = document.getElementById("msj")
-    msj.childNodes[1].innerText = titulo
-    msj.childNodes[3].innerText = mensaje
-    msj.style.backgroundColor = color
-    msj.style.animation = "moverElemento 1s forwards"
-    const esconder = () => {
-        const msj = document.getElementById("msj")
-        msj.style.animation = "esconderElemento 1s forwards"
-    }
-    setTimeout(esconder, 2000)
-}
+
 
 function interesados_actuales (res) {
     const interesados_actuales_tittle = document.createElement("h2")
@@ -618,18 +663,18 @@ async function derechonuevo_validacion (derecho, derecho_actual) {
         e.preventDefault()
         if (validacion_inputs(inputs_tr)) {
             if (input_fraccion.value >= 0 && input_fraccion.value <= 1) {
+                derecho.push(derecho_actual[0])
                 $.ajax({
                     url: "http://localhost:3000/ric_derechotipo/" + input_tipo.value,
                     type: "GET",
                     datatype: "JSON",
                     success: (res) => {
-                        derecho_actual[0].ric_derechotipo = res
+                        derecho.ric_derechotipo = res
                     }
                 })
-                derecho_actual[0].fecha_inicio_tenencia = input_fit.value
-                derecho_actual[0].fraccion_derecho = parseFloat(input_fraccion.value)
-                derecho_actual[0].descripcion = input_descripcion.value
-                derecho.push(derecho_actual[0])
+                derecho.fecha_inicio_tenencia = input_fit.value
+                derecho.fraccion_derecho = parseFloat(input_fraccion.value)
+                derecho.descripcion = input_descripcion.value
                 alerta("Correcto!", "El derecho se agrego de manera correcta", "green")
             } else {
                 alerta("Fraccion", "Ingrese un valor ente (0.0000000000 a 1.0000000000).", "red")
