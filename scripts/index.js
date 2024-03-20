@@ -1,4 +1,4 @@
-import { cerrarSesion } from "./unmodule.js"
+import { alerta, cerrarSesion, generarRegistro } from "./funciones_generales.js"
 $(document).ready(()=> {
     const sesion = JSON.parse(sessionStorage.getItem("session"))
     var input_nombre = $("#nombre").val(sesion.nombre)
@@ -40,7 +40,6 @@ $(document).ready(()=> {
     })
     $("#actualizar-usuario").on("click", () => {
         const data = {
-            id: sesion.id,
             nombre: input_nombre.val(),
             email: input_email.val(),
             contrasenia: "",
@@ -53,12 +52,16 @@ $(document).ready(()=> {
         }
         console.log(data)
         $.ajax({
-            url: "http://localhost:3000/actualizarUsuario/" + data.id,
+            url: "http://localhost:3000/actualizarUsuario/" + sesion.id,
             type: "PUT",
             data: data,
-            success: (res) => {
-                if (res) {
-                    cerrarSesion()
+            success: async (res) => {
+                console.log(res)
+                if (res.id != null) {                
+                    await generarRegistro(8, JSON.stringify(sesion), JSON.stringify(res), "Actualización de usuario", sesion)
+                    await cerrarSesion()
+                } else {
+                    alerta("Error!", "No se puedo actualizar", "orange")
                 }
             }
         })

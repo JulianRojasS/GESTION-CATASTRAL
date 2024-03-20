@@ -21,6 +21,7 @@ $(document).ready(() => {
                         type: "GET",
                         datatype: "JSON",
                         success: (res) => {
+                            console.log(res)
                             sessionStorage.setItem("session", JSON.stringify(res))
                             window.location.href = "./views/index.html"
                         }
