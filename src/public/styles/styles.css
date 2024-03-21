@@ -276,7 +276,7 @@ nav ul li a {
 }
 
 .footer {
-    background-color: #4b4b4b; 
+    background-color: #2E4053; 
     color: white;
     text-align: center;
     padding: 5px; 
@@ -341,7 +341,7 @@ nav ul li a {
 #consultas {
     margin: 0 auto 10px;
     padding: 20px 0;
-    background-color: #4b4b4b;
+    background-color: #2E4053;
     display: flex;
     justify-content: space-around;
 }
@@ -384,7 +384,7 @@ nav ul li a {
     overflow: auto;
 }
 
-.tablas-consultas table {
+.tablas-consultas {
     width: 90%;
     margin: 10px auto 50px;
     text-align: center;
@@ -393,7 +393,7 @@ nav ul li a {
 }
 
 .tablas-consultas th {
-    background-color: #4b4b4b; 
+    background-color: #2E4053; 
     color: white;
     border: 1px solid black;
     padding: 10px;

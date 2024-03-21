@@ -204,7 +204,7 @@ export default function createTable (res, type, success_predio) {
                             const scroll_table_modal = document.createElement("div")
                             scroll_table_modal.className = "scrool-table-modal"
                             const modal_table = document.createElement("table")
-                            table.className = "tablas-consultas"
+                            modal_table.className = "tablas-consultas"
                             const modal_thead = document.createElement("thead")
                             modal_table.appendChild(modal_thead)
                             const ths = ["Codigo Homologado", "Numero Predial", "Numero predial Anterior", "Matricula inmobiliaria", "Ver"]
