@@ -375,8 +375,17 @@ nav ul li a {
 
 
 
-
 /* Estilos de tablas */
+
+#traveltable {
+    position: relative;
+    float: left;
+    left: 88%;
+}
+
+#traveltable button {
+    width: 40px;
+}
 
 #resultados {
     margin: 0 0 0 5%;
@@ -485,6 +494,7 @@ nav ul li a {
 .tabla-historial th,
 .tabla-historial td {
     padding: 22px 15px;
+    text-align: center;
 }
 
 .tabla-historial tbody tr {
