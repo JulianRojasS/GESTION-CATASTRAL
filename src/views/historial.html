@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="/src/public/styles/styles.css">
     <title>Historial</title>
 </head>
-
+<header class="header">
+    <img src="../public/img/logo.png" width="50px" alt="">
+    <h2 class="modulo-consultas-tittle">Historial</h2>
+</header>
 <nav>
     <ul>
         <li><a href="./index.html">Perfil</a></li>
         <li><a href="#">Radicación</a></li>
         <li><a href="./ejecucion.html">Ejecución</a></li>
-        <li><a href="#">Historial</a></li>
+        <li><a href="./historial.html">Historial</a></li>
     </ul>
 </nav>
 <style>
@@ -21,8 +24,27 @@
 
 </style>
 <body> 
+    <div class="Botones">
+        <button>Todos</button>
+        <button>Interesados</button>
+        <button>Predio</button>
+    </div>
+    
+    
     <center>
-        <table class="styled-table">
+        <div class="Datos">
+            <input type="text" placeholder="Ingrese...">
+
+            <select name="select" id="">
+                <option value="1">Selecione</option>
+            </select>
+            <button>
+                boton
+            </button>
+        </div>
+        
+
+        <table class="tabla-historial">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -43,8 +65,17 @@
                 <tr>
                     <td>Dom</td>
                     <td>6000</td>
+                    <td>4000</td>
+                    <td>gtee</td>
+                    <td><button>Ver mas</button></td>
                 </tr>
-    
+                <tr>
+                    <td>Dom</td>
+                    <td>600asudhaisdhaiwhdiahsidhaiwhdiashdoiahwdoihaioshdia0</td>
+                    <td>asd</td>
+                    <td>dawasdawd</td>
+                    <td><button>Ver mas</button></td>
+                </tr>
             </tbody>
         </table>
     </center>

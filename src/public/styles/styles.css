@@ -81,7 +81,7 @@ body {
 
 /*header */
 .header {
-    background-color: #414141; /* Color de fondo del header */
+    background-color: #283747 ; /* Color de fondo del header */
     color: #fff; /* Color del texto */
     display: flex;
     height: 60px;
@@ -102,7 +102,7 @@ body {
 }
 
 nav {
-    background-color: #414141;
+    background-color: #283747;
     height: 30px;
 }
 
@@ -384,7 +384,7 @@ nav ul li a {
     overflow: auto;
 }
 
-/* table {
+.tablas-consultas table {
     width: 90%;
     margin: 10px auto 50px;
     text-align: center;
@@ -392,67 +392,111 @@ nav ul li a {
     border-collapse: collapse;
 }
 
-table th {
+.tablas-consultas table th {
     background-color: #4b4b4b; 
     color: white;
     border: 1px solid black;
     padding: 10px;
 }
 
-table td {
+.tablas-consultas table td {
     border-bottom: 1px solid;
 }
 
-table button {
+.tablas-consultas table button {
     width: 100%;
     padding: 2px;
     border: 0;
     border-left: 1px solid;
 }
 
-table button:hover {
+.tablas-consultas table button:hover {
     background-color: black;
     color: white;
 }
 
 
-table td a{
+.tablas-consultas table td a{
     font-size: 15px;
     color: white;
     text-decoration: none;
-}*/
+}
 
-.styled-table {
+.Botones{
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.Botones button{
+    width: 15%;
+    height: 28px;
+    margin-left: 35px;
+    border-radius: 10px;
+    border-color: #797D7F;
+    background-color: #ffffff;
+}
+
+
+.Datos input,
+.Datos select,
+.Datos button {
+    margin: 20px;
+}
+
+.Datos input{
+    border-radius: 10px;
+    border-color: #797D7F;
+}
+
+.Datos select{
+    width: 20%;
+    height: 28px;
+    border-radius: 10px;
+    border-color: #797D7F;
+}
+
+.Datos button{
+    width: 20%;
+    height: 28px;
+    border-radius: 10px;
+    border-color: #797D7F;
+    background-color: #ffffff;
+}
+
+.tabla-historial {
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 50%;
+    min-width: 55%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
     
-.styled-table thead tr {
-    background-color: #D4AC0D;
+.tabla-historial thead tr {
+    background-color: #2E4053;
     color: #ffffff;
     text-align: left;
 }
 
-.styled-table th,
-.styled-table td {
+.tabla-historial th,
+.tabla-historial td {
     padding: 22px 15px;
 }
 
-.styled-table tbody tr {
+.tabla-historial tbody tr {
     border-bottom: 1px solid #dddddd;
+    background-color: #ffffff;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+.tabla-historial tbody tr:nth-of-type(even) {
+    background-color: #e9e9e9;
 }
 
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #9A7D0A ;
+.tabla-historial tbody tr:last-of-type {
+    border-bottom: 2px solid #17202A  ;
 }
+
 /* Alertas */
 * {
     margin: 0;
