@@ -81,8 +81,8 @@ body {
 
 /*header */
 .header {
-    background-color: #283747 ; /* Color de fondo del header */
-    color: #fff; /* Color del texto */
+    background-color: #283747 ;
+    color: #fff; 
     display: flex;
     height: 60px;
 }
@@ -110,31 +110,22 @@ nav ul {
     display: flex;
     justify-content: space-around;
     list-style-type: none; /* Elimina los estilos de lista (viñetas) */
-    padding: 0; /* Elimina el relleno predeterminado */
-    margin: 0; /* Elimina el margen predeterminado */
+    padding: 0; 
+    margin: 0;
 }
 
 nav ul li {
     display: inline; /* Muestra los elementos de lista en línea */
-    margin-right: 20px; /* Espaciado entre los elementos de lista */
+    margin-right: 20px;
 }
 
 nav ul li:last-child {
-    margin-right: 0; /* Elimina el margen derecho del último elemento de lista */
+    margin-right: 0;
 }
 
 nav ul li a {
-    color: #fff; /* Color del texto de los enlaces */
-    text-decoration: none; /* Elimina la subrayado predeterminado de los enlaces */
-}
-
-/* fin header */
-
-.P_formulario {
-	margin-top: 5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #fff;
+    text-decoration: none;
 }
 
 .header h2{
@@ -143,31 +134,42 @@ nav ul li a {
     font-family: 'Quicksand', sans-serif;
 }
 
-.formulario__contenido {
-    display: flex;
-    align-items: center;
-}
+/* fin header */
 
-.formulario__imagen {
-    max-width: 220px; /* Ajusta el ancho máximo de la imagen según tus necesidades */
-    margin-left: 10px; /* Espacio entre la imagen y el formulario */
-}
 
-.formulario__datos {
-    flex: 1; /* El formulario ocupa todo el espacio restante */
+
+/* Login */
+
+.formulario__datos h1{
+    text-align: center;
+    margin-bottom: 12px;
 }
 
 #logo{
-    width: 6%;
-    display: block; /* Asegura que la imagen sea un elemento de bloque */
-    margin-left: auto; /* Coloca el margen izquierdo automático */
-    margin-right: auto; /* Coloca el margen derecho automático */
+    width: 20%;
+    display: block;
+    margin-left: auto; 
+    margin-right: auto; 
+    margin-bottom: 10px;
 }
 
+.formulario__contenido {
+    display: flex;
+}
+
+.formulario__datos {
+    flex: 1; 
+}
+
+.P_formulario {
+	margin-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .formulario {
-    width: 80%; 
-    max-width: 36%;
+    width: 30%;
     background-color: white; 
 	border: solid 1px #E5E5E5;
     padding: 20px;
@@ -176,17 +178,19 @@ nav ul li a {
 }
 
 .formulario__label{
-	display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
+
 .div_input {
-	position: relative;
+	display: flex;
+    justify-content: center;
+    margin-top: 15px;
 }
 
 .formulario__input {
-    width: 100%;
+    width: 94%;
     font-size: 16px;
     padding: 10px;
     border-width: 1px;
@@ -196,27 +200,15 @@ nav ul li a {
     border-radius: 5px;
 }
 
-.formulario__input-error {
-	font-size: 12px;
-	margin-bottom: 0;
-	display: none;
-}
-
-.formulario__input-error-activo {
-	display: block;
-}
-
-.formulario__validacion-estado {
-	position: absolute;
-	right: 10px;
-	bottom: 15px;
-	z-index: 100;
-	font-size: 16px;
-	opacity: 0;
-}
 
 .formulario__grupo {
+    margin-top: 25px;
     margin-bottom: 20px; 
+}
+
+
+.formulario__grupo a{
+    margin-bottom: 20px;
 }
 
 .formulario__grupo-btn-enviar {
@@ -225,8 +217,8 @@ nav ul li a {
 
 .formulario__btn {
 	line-height: 40px;
-	width: 20%;
-	background: #414141;
+	width: 70%;
+	background: #3F76A6;
 	color: #fff;
 	font-weight: bold;
 	border: none;
@@ -241,39 +233,6 @@ nav ul li a {
 	align-items: center;
 }
 
-.formulario__grupo-btn-enviar {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.formulario__grupo-btn-enviar {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-
-
-.formulario__grupo-correcto .formulario__validacion-estado {
-	color: #1ed12d;
-	opacity: 1;
-}
-
-.formulario__grupo-incorrecto .formulario__label {
-	color: #bb2929;
-}
-
-.formulario__grupo-incorrecto .formulario__validacion-estado {
-	color: #bb2929;
-	opacity: 1;
-}
-
-.formulario__grupo-incorrecto .formulario__input {
-	border: 3px solid #bb2929;
-    padding: 0;
-    margin: 0;
-}
 
 .footer {
     background-color: #2E4053; 
@@ -284,6 +243,7 @@ nav ul li a {
     width: 100%; 
     bottom: 0; 
 }
+
 
 /* Modal Detalle Interesado */
 
@@ -336,12 +296,58 @@ nav ul li a {
     position: absolute;
 }  
 
+/* Ejecucion */
+#search_predio{
+    display: flex;
+    margin: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+#search_predio label{
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+#search_predio input{
+    width: 20%;
+    height: 25px;
+    border-radius: 10px;
+    border-color: #797D7F;
+    text-align: center;
+}
+
+#search_predio ::placeholder {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+}
+
+#search_predio button{
+    width: 10%;
+    height: 28px;
+    margin-top: 15px;
+    border: 1px solid #3a7ea1;
+    border-radius: 10px;
+    color: white;
+    background-color: #54A1BF;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#search_predio button:hover {
+    background-color: #3a7ea1; /* Cambia el color de fondo cuando se pasa el mouse sobre el botón */
+}
+
+.section section{
+    text-align: center;
+}
+
 /* Modulo Consultas */
 
 #consultas {
     margin: 0 auto 10px;
     padding: 20px 0;
-    background-color: #2E4053;
+    background-color: #34495E;
     display: flex;
     justify-content: space-around;
 }
@@ -536,3 +542,4 @@ nav ul li a {
     text-align: left;
     border: 1px solid;
   }
+
