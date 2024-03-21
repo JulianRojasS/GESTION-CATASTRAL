@@ -119,9 +119,6 @@ nav ul li {
     margin-right: 20px;
 }
 
-nav ul li:last-child {
-    margin-right: 0;
-}
 
 nav ul li a {
     color: #fff;
@@ -380,14 +377,9 @@ nav ul li a {
 
 
 /* Estilos de tablas */
-#traveltable {
-    position: relative;
-    float: left;
-    left: 88%;
-}
 
-#traveltable button {
-    width: 40px;
+#resultados {
+    margin: 0 0 0 5%;
 }
 
 .scrool-table-modal {
