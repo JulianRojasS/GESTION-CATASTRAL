@@ -17,7 +17,6 @@ $(document).ready(async () => {
 
 
     function show (info) {
-        console.log(info)
         tablebody.innerHTML = ""
         info.forEach((cambio) => {
             const tr = document.createElement("tr")
@@ -59,11 +58,13 @@ $(document).ready(async () => {
     })
     $("#2").on("click", async () => {
         $("#filtro")[0].style.display = "block"
+        filter(["Seleccione una opción", "Id", "Fecha inicio de tenencia", "Fraccion del derecho"], ["", "t_id",  "fecha_inicio_tenencia", "fraccion_derecho"])
         await set_current_info("http://localhost:3000/controlCambiosEntidad/"+2)
         show(current_info)
     })
     $("#3").on("click", async () => {
         $("#filtro")[0].style.display = "block"
+        filter(["Selecione una opción", "Ente emisor", "Oficina origen", "Ciudad origen"], ["", "ente_emisor", "oficina_origen", "ciudad_origen"])
         await set_current_info("http://localhost:3000/controlCambiosEntidad/"+3)
         show(current_info)
     })
@@ -89,7 +90,7 @@ $(document).ready(async () => {
             const show_filter_info = []
             for (let cambio = 0; cambio < current_info.length; cambio++) {
                 var current_object = JSON.parse(current_info[cambio].estado_nuevo)
-                if (current_object[search_type.value] == search_value.value) {
+                if (current_object[search_type.value] == search_value.value.toUpperCase()) {
                     show_filter_info.push(current_info[cambio])
                 }
             }
