@@ -360,7 +360,7 @@ function interesados_actuales (res) {
     interesados_actuales_tittle.innerText = "interesados actuales"
     document.getElementById("interesados-actual").appendChild(interesados_actuales_tittle)
     const table = document.createElement("table")
-    table.className = "tablas-consultas"
+    table.className = "tabla-historial"
     const head = document.createElement("thead")
     const options = ["Tipo de documento", "Nombre o Razón Social", "Documento", "Participacion"]
         options.forEach((e) => {
@@ -408,7 +408,7 @@ async function interesados_nuevos (interesadosnuevos) {
     interesados_nuevos_tittle.innerText = "Interesados nuevos"
     form.appendChild(interesados_nuevos_tittle)
     const table = document.createElement("table")
-    table.className = "tablas-consultas"
+    table.className = "tabla-historial"
     const thead = document.createElement("thead")
     const tbody = document.createElement("tbody")
     form.addEventListener("submit", (e) => e.preventDefault())
@@ -645,7 +645,7 @@ async function derechonuevo (derecho, derecho_actual) {
     derecho_tittle.innerText = "Derecho"
     form.appendChild(derecho_tittle)
     const table = document.createElement("table")
-    table.className = "tablas-consultas"
+    table.className = "tabla-historial"
     const thead = document.createElement("thead")
     const tbody = document.createElement("tbody")
     const options = ["Guardar","Tipo", "Fracción", "Fecha inicio tenencia", "Descripción"]
@@ -733,7 +733,7 @@ async function fuenteadministrativanueva (fuenteadministrativa) {
     form.appendChild(fuenteadministrativanueva)
     form.addEventListener("submit", (e) => e.preventDefault())
     const table = document.createElement("table")
-    table.className = "tablas-consultas"
+    table.className = "tabla-historial"
     const thead = document.createElement("thead")
     const tbody = document.createElement("tbody")
     const options = ["Agregar", "Tipo", "Ente Emisor", "Oficina Origen", "Ciudad Origen", "Observacion", "Numero Fuente", "Estado Disponibilidad", "Tipo Fuente", "Fecha de Documento Fuente"]
