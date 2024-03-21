@@ -430,6 +430,7 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
     const inputs_tr = document.createElement("tr")
     const button_add = document.createElement("button")
     button_add.innerText = "+"
+    var interesadoretornar = []
     button_add.addEventListener("click", () => {
         if (input_Tipo.value != "undefined" && input_Tipo_documento.value != "undefined" && input_Documento.value != "") {
             var isIn = false;
@@ -727,9 +728,9 @@ async function derechonuevo_validacion (derecho, derecho_actual) {
 
 async function fuenteadministrativanueva (fuenteadministrativa) {
     const form = document.createElement("form")
-    const fuenteadministrativa_title = document.createElement("h2")
-    fuenteadministrativa_title.innerText = "Fuente Administrativa"
-    form.appendChild(fuenteadministrativa_title)
+    const fuenteadministrativanueva = document.createElement("h2")
+    fuenteadministrativanueva.innerText="Fuente Administrativa Nueva"
+    form.appendChild(fuenteadministrativanueva)
     form.addEventListener("submit", (e) => e.preventDefault())
     const table = document.createElement("table")
     table.className = "tablas-consultas"

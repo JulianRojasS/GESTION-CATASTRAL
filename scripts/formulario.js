@@ -37,10 +37,12 @@ $(document).ready(() => {
         input.addEventListener('blur',Validarform)
     }) 
 })
+
 const expresiones = {
 	password: /^.{4,12}$/, // 4 a 12 digitos.
 	correo: /^[a-zA-ZÀ-ÿ\s]{1,40}$/,
 }
+
 const Validarform=(e)=>{
     switch(e.target.name){
         case "correo":

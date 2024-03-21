@@ -81,7 +81,7 @@ body {
 
 /*header */
 .header {
-    background-color: #414141; /* Color de fondo del header */
+    background-color: #283747 ; /* Color de fondo del header */
     color: #fff; /* Color del texto */
     display: flex;
     height: 60px;
@@ -102,7 +102,7 @@ body {
 }
 
 nav {
-    background-color: #414141;
+    background-color: #283747;
     height: 30px;
 }
 
@@ -384,7 +384,7 @@ nav ul li a {
     overflow: auto;
 }
 
-.tablas-consultas {
+.tablas-consultas table {
     width: 90%;
     margin: 10px auto 50px;
     text-align: center;
@@ -420,6 +420,81 @@ nav ul li a {
     font-size: 15px;
     color: white;
     text-decoration: none;
+}
+
+.Botones{
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.Botones button{
+    width: 15%;
+    height: 28px;
+    margin-left: 35px;
+    border-radius: 10px;
+    border-color: #797D7F;
+    background-color: #ffffff;
+}
+
+
+.Datos input,
+.Datos select,
+.Datos button {
+    margin: 20px;
+}
+
+.Datos input{
+    border-radius: 10px;
+    border-color: #797D7F;
+}
+
+.Datos select{
+    width: 20%;
+    height: 28px;
+    border-radius: 10px;
+    border-color: #797D7F;
+}
+
+.Datos button{
+    width: 20%;
+    height: 28px;
+    border-radius: 10px;
+    border-color: #797D7F;
+    background-color: #ffffff;
+}
+
+.tabla-historial {
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 55%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+    
+.tabla-historial thead tr {
+    background-color: #2E4053;
+    color: #ffffff;
+    text-align: left;
+}
+
+.tabla-historial th,
+.tabla-historial td {
+    padding: 22px 15px;
+}
+
+.tabla-historial tbody tr {
+    border-bottom: 1px solid #dddddd;
+    background-color: #ffffff;
+}
+
+.tabla-historial tbody tr:nth-of-type(even) {
+    background-color: #e9e9e9;
+}
+
+.tabla-historial tbody tr:last-of-type {
+    border-bottom: 2px solid #17202A  ;
 }
 
 /* Alertas */
