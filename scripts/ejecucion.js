@@ -1,5 +1,5 @@
 import { generarRegistro, alerta } from "./funciones_generales.js"
-$(document).ready(()=> {
+$(document).ready(async ()=> {
     const user = JSON.parse(sessionStorage.getItem("session"))
     var interesadosnuevos = []
     var derecho = []
@@ -13,7 +13,14 @@ $(document).ready(()=> {
                 url: "http://localhost:3000/prediosByLike/numero_predial/" + np,
                 type: "POST",
                 datatype: "JSON",
-                success: (res) => {
+                success: async (res) => {
+                    const derecho_registro = await $.ajax({
+                        url: "http://localhost:3000/derechosPredio/"+ res[0].t_id,
+                        type: "GET",
+                        datatype: "JSON",
+                        success: (derechoactual) => {                          
+                        }
+                    })  
                     if (typeof(res[0]) != "undefined") {
                         $.ajax({
                             url: "http://localhost:3000/interesadosPredio/" + res[0].t_id,
@@ -33,7 +40,7 @@ $(document).ready(()=> {
                                                 if (interesadosnuevos.length < 2) {
                                                     if (interesadosnuevos[0].existencia) {
                                                         crearDerecho(interesadosnuevos[0].interesado, derecho[0], "unico")
-                                                        generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
+                                                        generarRegistro(2, JSON.stringify(derecho_registro[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                     } else {
                                                         const data = interesado_objeto_respuesta(interesadosnuevos[0].interesado)
                                                         $.ajax({
@@ -42,7 +49,7 @@ $(document).ready(()=> {
                                                             data: data,
                                                             success: (newinteresado) => {
                                                                 crearDerecho(newinteresado, derecho[0], "unico")
-                                                                generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
+                                                                generarRegistro(2, JSON.stringify(derecho_registro[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                                 generarRegistro(1, null, JSON.stringify(newinteresado), "Creación de interesado", user)
                                                             },
                                                             datatype: "text"
@@ -169,7 +176,7 @@ $(document).ready(()=> {
                                                             }
                                                         })   
                                                         derecho[0] = crearDerecho(agrupacion, derecho[0], "agrupacion")
-                                                        generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
+                                                        generarRegistro(2, JSON.stringify(derecho_registro[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                     } else {
                                                         var natrual = 0
                                                         var grupoempresarial = 0
@@ -247,7 +254,7 @@ $(document).ready(()=> {
                                                                             }
                                                                         })   
                                                                         crearDerecho(agrupacion, derecho[0], "agrupacion")
-                                                                        generarRegistro(2, JSON.stringify(derecho_actual[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
+                                                                        generarRegistro(2, JSON.stringify(derecho_registro[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
                                                                     }
                                                                 })
                                                             }
@@ -337,7 +344,6 @@ $(document).ready(()=> {
                             derecho_actual.push(derechoactual[0])                            
                         }
                     })  
-                    console.log(derecho_actual)  
                 }
             })
         } else {
@@ -354,6 +360,7 @@ function interesados_actuales (res) {
     interesados_actuales_tittle.innerText = "interesados actuales"
     document.getElementById("interesados-actual").appendChild(interesados_actuales_tittle)
     const table = document.createElement("table")
+    table.className = "tablas-consultas"
     const head = document.createElement("thead")
     const options = ["Tipo de documento", "Nombre o Razón Social", "Documento", "Participacion"]
         options.forEach((e) => {
@@ -401,10 +408,11 @@ async function interesados_nuevos (interesadosnuevos) {
     interesados_nuevos_tittle.innerText = "Interesados nuevos"
     form.appendChild(interesados_nuevos_tittle)
     const table = document.createElement("table")
+    table.className = "tablas-consultas"
     const thead = document.createElement("thead")
     const tbody = document.createElement("tbody")
     form.addEventListener("submit", (e) => e.preventDefault())
-    const options = ["Agregar", "Documento*", "Tipo*", "Tipo documento*", "Existencia", "Nombre", "Sexo" ,"Grupo Etnico", "Razon Social", "Estado Civil"]
+    const options = ["Agregar", "Documento", "Tipo", "Tipo documento", "Existencia", "Nombre", "Sexo" ,"Grupo Etnico", "Razon Social", "Estado Civil"]
     options.forEach((e) => {
         var th = document.createElement("th")
         th.innerHTML = e
@@ -424,7 +432,7 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
     button_add.innerText = "+"
     var interesadoretornar = []
     button_add.addEventListener("click", () => {
-        if (validacion_inputs(inputs_tr)) {
+        if (input_Tipo.value != "undefined" && input_Tipo_documento.value != "undefined" && input_Documento.value != "") {
             var isIn = false;
             for(let un = 0; un < interesadosnuevos.length ; un++) {
                 if (interesadosnuevos[un].interesado.documento_identidad == input_Documento.value) {
@@ -632,12 +640,12 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
 }
 
 async function derechonuevo (derecho, derecho_actual) {
-    console.log(derecho, derecho_actual)
     const form = document.createElement("form")
     const derecho_tittle = document.createElement("h2")
     derecho_tittle.innerText = "Derecho"
     form.appendChild(derecho_tittle)
     const table = document.createElement("table")
+    table.className = "tablas-consultas"
     const thead = document.createElement("thead")
     const tbody = document.createElement("tbody")
     const options = ["Guardar","Tipo", "Fracción", "Fecha inicio tenencia", "Descripción"]
@@ -654,7 +662,6 @@ async function derechonuevo (derecho, derecho_actual) {
 } 
 
 async function derechonuevo_validacion (derecho, derecho_actual) {
-    console.log(derecho, derecho_actual)
     const inputs_tr = document.createElement("tr")
     const td_input_guardar = document.createElement("td")
     const guardar = document.createElement("button")
@@ -670,12 +677,13 @@ async function derechonuevo_validacion (derecho, derecho_actual) {
                     type: "GET",
                     datatype: "JSON",
                     success: (res) => {
-                        derecho.ric_derechotipo = res
+                        derecho[0].ric_derechotipo = res
                     }
                 })
-                derecho.fecha_inicio_tenencia = input_fit.value
-                derecho.fraccion_derecho = parseFloat(input_fraccion.value)
-                derecho.descripcion = input_descripcion.value
+                derecho[0].fecha_inicio_tenencia = input_fit.value
+                derecho[0].fraccion_derecho = parseFloat(input_fraccion.value)
+                derecho[0].descripcion = input_descripcion.value
+                console.log(derecho, derecho_actual)
                 alerta("Correcto!", "El derecho se agrego de manera correcta", "green")
             } else {
                 alerta("Fraccion", "Ingrese un valor ente (0.0000000000 a 1.0000000000).", "red")
@@ -725,6 +733,7 @@ async function fuenteadministrativanueva (fuenteadministrativa) {
     form.appendChild(fuenteadministrativanueva)
     form.addEventListener("submit", (e) => e.preventDefault())
     const table = document.createElement("table")
+    table.className = "tablas-consultas"
     const thead = document.createElement("thead")
     const tbody = document.createElement("tbody")
     const options = ["Agregar", "Tipo", "Ente Emisor", "Oficina Origen", "Ciudad Origen", "Observacion", "Numero Fuente", "Estado Disponibilidad", "Tipo Fuente", "Fecha de Documento Fuente"]
