@@ -375,6 +375,8 @@ nav a:hover {
     height: 30px;
 }
 
+
+
 #consultas input {
     width: 20%;
     border: 1px rgb(221, 221, 221) solid;
@@ -395,6 +397,16 @@ nav a:hover {
 
 
 /* Estilos de tablas */
+
+#traveltable {
+    position: relative;
+    float: left;
+    left: 88%;
+}
+
+#traveltable button {
+    width: 40px;
+}
 
 #resultados {
     margin: 0 0 0 5%;

@@ -116,7 +116,7 @@ export default function createTable (res, type, predio) {
             if (limit >= 40) {
                 limit = limit - 20
                 i = limit - 20
-                i = createBodyPredio(res, table, head, body, i, limit)
+                i = createBodyPredio(res, table, head, body, i, limit, predio)
             }
         } else if (type == "ric_interesado") {
             if (limit > 40) {
@@ -130,10 +130,10 @@ export default function createTable (res, type, predio) {
         if (type == "ric_predio") {
             if (i < res.length - i) {
                 limit = limit + 20
-                i = createBodyPredio(res, table, head, body, i, limit)
+                i = createBodyPredio(res, table, head, body, i, limit, predio)
             } else if (i >= res.length - i && res.length - i > 0) {
                 limit = res.length
-                i = createBodyPredio(res, table, head, body, i, limit)
+                i = createBodyPredio(res, table, head, body, i, limit, predio)
             }
         } else if (type == "ric_interesado") {
             if (i < res.length - i) {
@@ -147,7 +147,7 @@ export default function createTable (res, type, predio) {
     })
 
     if (type == "ric_predio") {
-        i = createBodyPredio(res, table, head, body, i, limit)
+        i = createBodyPredio(res, table, head, body, i, limit, predio)
     } else if (type = "ric_interesado") {
         i = createBodyInteresado(res, table, head, body, i, limit, predio)
     }
@@ -157,7 +157,7 @@ export default function createTable (res, type, predio) {
 }
 
 
-function createBodyPredio (res, table, head, body,  i , limit) {
+function createBodyPredio (res, table, head, body,  i , limit, predio) {
     head.innerHTML = ""
     body.innerHTML = ""
     const options = ["Codigo Homologado", "Numero Predial", "Numero Predial Anterior", "Matricula Inmobiliaria", "Ver" ]
