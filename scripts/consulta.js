@@ -1,4 +1,5 @@
 $(document).ready(()=> {
+    $("#traveltable")[0].style.display = "none"
     $("#table").on("change", (e) => {
         const column = $("#column")[0]
         column.innerHTML = ""
@@ -35,15 +36,15 @@ $(document).ready(()=> {
                     type: "POST",
                     datatype: "JSON",
                     success: (res) => {
-                        if (document.body.childNodes.length <=  16) {
+                        if (document.body.childNodes.length <=  20) {
                             const results = document.createElement("u")
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                             results.id = "resultados"
                             document.body.appendChild(results)
-                            createTable(res)
+                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
                         } else {
-                            document.body.removeChild(document.body.childNodes.item(17))
-                            document.body.removeChild(document.body.childNodes.item(16))
+                            document.body.removeChild(document.body.childNodes.item(21))
+                            document.body.removeChild(document.body.childNodes.item(20))
                             const results = document.createElement("u")
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                             results.id = "resultados"
@@ -58,15 +59,15 @@ $(document).ready(()=> {
                     type: "POST",
                     datatype: "JSON",
                     success: (res) => {
-                        if (document.body.childNodes.length <=  16) {
+                        if (document.body.childNodes.length <=  20) {
                             const results = document.createElement("u")
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                             results.id = "resultados"
                             document.body.appendChild(results)
-                            createTable(res)
+                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
                         } else {
-                            document.body.removeChild(document.body.childNodes.item(17))
-                            document.body.removeChild(document.body.childNodes.item(16))
+                            document.body.removeChild(document.body.childNodes.item(21))
+                            document.body.removeChild(document.body.childNodes.item(20))
                             const results = document.createElement("u")
                             results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                             results.id = "resultados"
@@ -103,12 +104,63 @@ function validateRequiredData (idList) {
     }
 }
 
-export default function createTable (res, type, success_predio) {
+export default function createTable (res, type, predio) {
     const table = document.createElement("table")
     table.className = "tablas-consultas"
     const head = document.createElement("thead")
+    const body = document.createElement("tbody")
+    var i = 0
+    var limit = 20
+    document.getElementById("back").addEventListener("click", () => {
+        if (type == "ric_predio") {
+            if (limit >= 40) {
+                limit = limit - 20
+                i = limit - 20
+                i = createBodyPredio(res, table, head, body, i, limit)
+            }
+        } else if (type == "ric_interesado") {
+            if (limit > 40) {
+                limit = limit - 20
+                i = limit - 20
+                i = createBodyInteresado(res, table, head, body, i, limit, predio)
+            }
+        }
+    })
+    document.getElementById("advance").addEventListener("click", () => {
+        if (type == "ric_predio") {
+            if (i < res.length - i) {
+                limit = limit + 20
+                i = createBodyPredio(res, table, head, body, i, limit)
+            } else if (i >= res.length - i && res.length - i > 0) {
+                limit = res.length
+                i = createBodyPredio(res, table, head, body, i, limit)
+            }
+        } else if (type == "ric_interesado") {
+            if (i < res.length - i) {
+                limit = limit + 20
+                i = createBodyInteresado(res, table, head, body, i, limit, predio)
+            } else if (i >= res.length - i && res.length - i > 0) {
+                limit = res.length
+                i = createBodyInteresado(res, table, head, body, i, limit, predio)
+            }
+        }
+    })
+
     if (type == "ric_predio") {
-        const options = ["Codigo Homologado", "Numero Predial", "Numero Predial Anterior", "Matricula Inmobiliaria", "Ver" ]
+        i = createBodyPredio(res, table, head, body, i, limit)
+    } else if (type = "ric_interesado") {
+        i = createBodyInteresado(res, table, head, body, i, limit, predio)
+    }
+
+    table.appendChild(head)
+    document.body.appendChild(table)
+}
+
+
+function createBodyPredio (res, table, head, body,  i , limit) {
+    head.innerHTML = ""
+    body.innerHTML = ""
+    const options = ["Codigo Homologado", "Numero Predial", "Numero Predial Anterior", "Matricula Inmobiliaria", "Ver" ]
         options.forEach((e) => {
             var th = document.createElement("th")
             th.innerHTML = e
@@ -116,31 +168,60 @@ export default function createTable (res, type, success_predio) {
             head.appendChild(th)
         })
         if (res.length > 0) {
-            const body = document.createElement("tbody")
-            res.forEach((e) => {
-                const tr = document.createElement("tr")
-                const codigo_homologado = document.createElement("td")
-                codigo_homologado.innerHTML = e.codigo_homologado
-                tr.appendChild(codigo_homologado)
-                const numero_predial = document.createElement("td")
-                numero_predial.innerHTML = e.numero_predial
-                tr.appendChild(numero_predial)
-                const numero_predial_anterior = document.createElement("td")
-                numero_predial_anterior.innerHTML = e.numero_predial_anterior
-                tr.appendChild(numero_predial_anterior)
-                const matricula_inmobiliaria = document.createElement("td")
-                matricula_inmobiliaria.innerHTML = e.matricula_inmobiliaria
-                tr.appendChild(matricula_inmobiliaria)
-                const button = document.createElement("td")
-                const see = document.createElement("button")
-                see.innerHTML = "Ver mas"
-                button.appendChild(see)
-                see.addEventListener("click", () => {
-                    window.open(success_predio+ e.t_id)
+            if (res.length > 20) {
+                document.getElementById("traveltable").style.display = "block"
+                while (i < limit) {
+                    const tr = document.createElement("tr")
+                    const codigo_homologado = document.createElement("td")
+                    codigo_homologado.innerHTML = res[i].codigo_homologado
+                    tr.appendChild(codigo_homologado)
+                    const numero_predial = document.createElement("td")
+                    numero_predial.innerHTML = res[i].numero_predial
+                    tr.appendChild(numero_predial)
+                    const numero_predial_anterior = document.createElement("td")
+                    numero_predial_anterior.innerHTML = res[i].numero_predial_anterior
+                    tr.appendChild(numero_predial_anterior)
+                    const matricula_inmobiliaria = document.createElement("td")
+                    matricula_inmobiliaria.innerHTML = res[i].matricula_inmobiliaria
+                    tr.appendChild(matricula_inmobiliaria)
+                    const button = document.createElement("td")
+                    const see = document.createElement("button")
+                    see.innerHTML = "Ver mas"
+                    button.appendChild(see)
+                    see.addEventListener("click", () => {
+                        window.open(predio+ res[i].t_id)
+                    })
+                    tr.appendChild(button)
+                    body.appendChild(tr)
+                    i++
+                }
+            } else {
+                document.getElementById("traveltable").style.display = "none"
+                res.forEach((e) => {
+                    const tr = document.createElement("tr")
+                    const codigo_homologado = document.createElement("td")
+                    codigo_homologado.innerHTML = e.codigo_homologado
+                    tr.appendChild(codigo_homologado)
+                    const numero_predial = document.createElement("td")
+                    numero_predial.innerHTML = e.numero_predial
+                    tr.appendChild(numero_predial)
+                    const numero_predial_anterior = document.createElement("td")
+                    numero_predial_anterior.innerHTML = e.numero_predial_anterior
+                    tr.appendChild(numero_predial_anterior)
+                    const matricula_inmobiliaria = document.createElement("td")
+                    matricula_inmobiliaria.innerHTML = e.matricula_inmobiliaria
+                    tr.appendChild(matricula_inmobiliaria)
+                    const button = document.createElement("td")
+                    const see = document.createElement("button")
+                    see.innerHTML = "Ver mas"
+                    button.appendChild(see)
+                    see.addEventListener("click", () => {
+                        window.open(predio+ e.t_id)
+                    })
+                    tr.appendChild(button)
+                    body.appendChild(tr)
                 })
-                tr.appendChild(button)
-                body.appendChild(tr)
-            })
+            }
             table.appendChild(body)
         } else {
             const body = document.createElement("tbody")
@@ -152,16 +233,120 @@ export default function createTable (res, type, success_predio) {
             body.appendChild(tr)
             table.appendChild(body)
         }
-    } else if (type = "ric_interesado") {
-        const options = ["Nombre o Razón Social", "Documento", "Ver"]
-        options.forEach((e) => {
-            var th = document.createElement("th")
-            th.innerHTML = e
-            th.id = e.toLowerCase().replaceAll(" ", "_")
-            head.appendChild(th)
-        })
-        if (res.length > 0) {
-            const body = document.createElement("tbody")
+    return i
+}
+
+function createBodyInteresado (res, table, head, body,  i , limit, predio) {
+    head.innerHTML = ""
+    body.innerHTML = ""
+    const options = ["Nombre o Razón Social", "Documento", "Ver"]
+    options.forEach((e) => {
+        var th = document.createElement("th")
+        th.innerHTML = e
+        th.id = e.toLowerCase().replaceAll(" ", "_")
+        head.appendChild(th)
+    })
+    if (res.length > 0) {
+        if (res.length > 20) {
+            document.getElementById("traveltable").style.display = "block"
+            while (i < limit) {
+                const tr = document.createElement("tr")
+                const nombre = document.createElement("td")
+                nombre.innerHTML = res[i].nombre
+                tr.appendChild(nombre)
+                const documento = document.createElement("td")
+                documento.innerHTML = res[i].documento_identidad
+                tr.appendChild(documento)
+                const button = document.createElement("td")
+                const see = document.createElement("button")
+                see.innerHTML = "Ver mas"
+                button.appendChild(see)
+                see.addEventListener("click", (x) => {
+                    const modal = document.getElementById("modal-body")
+                    modal.innerHTML = ""
+                    document.getElementById("modal").style.display = "block"
+                    document.body.style.overflow = "hidden"
+                    $.ajax({
+                        url: `http://localhost:3000/ric_interesado/${res[i].t_id}`,
+                        type: "POST",
+                        datatype: "JSON",
+                        success: (interesado) => {
+                            const nombre = document.createElement("h2")
+                            nombre.innerText = `Nombre: ${interesado.nombre}`
+                            modal.appendChild(nombre)
+                            const tipodocumento = document.createElement("p")
+                            tipodocumento.innerText = `Tipo de documento: ${interesado.ric_interesadodocumentotipo.dispname}`
+                            modal.appendChild(tipodocumento)
+                            const dociden = document.createElement ("p")
+                            dociden.innerText = `Número de documento: ${interesado.documento_identidad}`
+                            modal.appendChild(dociden)
+                            const close_modal_button = document.createElement("button")
+                            close_modal_button.id = "close-modal"
+                            close_modal_button.innerText = "x"
+                            close_modal_button.addEventListener("click", () => {
+                                document.getElementById("modal").style.display = "none"
+                                document.body.style.overflow = "auto"
+                            })
+                            modal.appendChild(close_modal_button)
+                            const scroll_table_modal = document.createElement("div")
+                            scroll_table_modal.className = "scrool-table-modal"
+                            const modal_table = document.createElement("table")
+                            modal_table.className = "tablas-consultas"
+                            const modal_thead = document.createElement("thead")
+                            modal_table.appendChild(modal_thead)
+                            const ths = ["Codigo Homologado", "Numero Predial", "Numero predial Anterior", "Matricula inmobiliaria", "Ver"]
+                            ths.forEach((e) => {
+                                const th = document.createElement("th")
+                                th.innerHTML = e
+                                modal_thead.appendChild(th)
+                            })
+                            const modal_tbody = document.createElement("tbody")
+                            $.ajax({
+                                url: `http://localhost:3000/predioDetalleInteresado/${res[i].t_id}`,
+                                type: "POST",
+                                datatype: "JSON",
+                                success: (tabledata) => {
+                                    tabledata.forEach((e) => {
+                                        const tr = document.createElement("tr")
+                                        const ch = document.createElement("td")
+                                        ch.innerHTML = e.codigo_homologado
+                                        tr.appendChild(ch)
+                                        const np = document.createElement("td")
+                                        np.innerHTML = e.numero_predial
+                                        tr.appendChild(np)
+                                        const npa = document.createElement("td")
+                                        npa.innerHTML = e.numero_predial_anterior
+                                        tr.appendChild(npa)
+                                        const mi = document.createElement("td")
+                                        mi.innerHTML = e.matricula_inmobiliaria
+                                        tr.appendChild(mi)
+                                        const see = document.createElement("td")
+                                        see.style.backgroundColor = "black"
+                                        const seeButton = document.createElement("button")
+                                        seeButton.addEventListener("click", () => {
+                                            window.open(predio+e.predio, "_blank");
+                                        })
+                                        seeButton.innerText = "Ver mas"
+                                        seeButton.target = "_blank"
+                                        see.appendChild(seeButton)
+                                        tr.appendChild(see)
+                                        modal_tbody.appendChild(tr)
+                                    })
+                                    modal_table.appendChild(modal_tbody)
+                                        scroll_table_modal.appendChild(modal_table)
+                                        modal.appendChild(scroll_table_modal)
+                                }
+                            })
+                            
+                        }
+                    })
+                })
+                tr.appendChild(button)
+                body.appendChild(tr)
+                i++
+            }
+        } else {
+            document.getElementById("traveltable").style.display = "none"
             res.forEach((e) => {
                 const tr = document.createElement("tr")
                 const nombre = document.createElement("td")
@@ -237,7 +422,7 @@ export default function createTable (res, type, success_predio) {
                                         see.style.backgroundColor = "black"
                                         const seeButton = document.createElement("button")
                                         seeButton.addEventListener("click", () => {
-                                            window.open(success_predio+e.predio, "_blank");
+                                            window.open(predio+e.predio, "_blank");
                                         })
                                         seeButton.innerText = "Ver mas"
                                         seeButton.target = "_blank"
@@ -257,21 +442,17 @@ export default function createTable (res, type, success_predio) {
                 tr.appendChild(button)
                 body.appendChild(tr)
             })
-            table.appendChild(body)
-        }  else {
-            const body = document.createElement("tbody")
-            const tr = document.createElement("tr")
-            const td = document.createElement("td")
-            td.innerText = "No se encontraron resultados"
-            td.colSpan = 5
-            tr.appendChild(td)
-            body.appendChild(tr)
-            table.appendChild(body)
         }
+        table.appendChild(body)
+    }  else {
+        const body = document.createElement("tbody")
+        const tr = document.createElement("tr")
+        const td = document.createElement("td")
+        td.innerText = "No se encontraron resultados"
+        td.colSpan = 5
+        tr.appendChild(td)
+        body.appendChild(tr)
+        table.appendChild(body)
     }
-
-    table.appendChild(head)
-    document.body.appendChild(table)
+    return i
 }
-
-

@@ -374,9 +374,14 @@ nav ul li a {
 
 
 /* Estilos de tablas */
+#traveltable {
+    position: relative;
+    float: left;
+    left: 88%;
+}
 
-#resultados {
-    margin: 0 0 0 5%;
+#traveltable button {
+    width: 40px;
 }
 
 .scrool-table-modal {
