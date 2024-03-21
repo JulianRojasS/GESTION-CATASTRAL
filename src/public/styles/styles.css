@@ -395,7 +395,6 @@ nav a:hover {
 
 
 
-
 /* Estilos de tablas */
 
 #traveltable {
@@ -515,6 +514,7 @@ nav a:hover {
 .tabla-historial th,
 .tabla-historial td {
     padding: 22px 15px;
+    text-align: center;
 }
 
 .tabla-historial tbody tr {

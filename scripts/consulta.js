@@ -105,6 +105,7 @@ function validateRequiredData (idList) {
 }
 
 export default function createTable (res, type, predio) {
+    console.log(predio)
     const table = document.createElement("table")
     table.className = "tablas-consultas"
     const head = document.createElement("thead")

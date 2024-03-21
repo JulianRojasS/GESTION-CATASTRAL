@@ -362,12 +362,13 @@ function interesados_actuales (res) {
     const table = document.createElement("table")
     table.className = "tabla-historial"
     const head = document.createElement("thead")
+    const tr_head = document.createElement("tr")
     const options = ["Tipo de documento", "Nombre o Razón Social", "Documento", "Participacion"]
         options.forEach((e) => {
             var th = document.createElement("th")
             th.innerHTML = e
             th.id = e.toLowerCase().replaceAll(" ", "_")
-            head.appendChild(th)
+            tr_head.appendChild(th)
         })
         if (res.length > 0) {
             const body = document.createElement("tbody")
@@ -398,6 +399,7 @@ function interesados_actuales (res) {
             body.appendChild(tr)
             table.appendChild(body)
         }
+        head.appendChild(tr_head)
         table.appendChild(head)
         document.getElementById("interesados-actual").appendChild(table)
 }
@@ -410,6 +412,7 @@ async function interesados_nuevos (interesadosnuevos) {
     const table = document.createElement("table")
     table.className = "tabla-historial"
     const thead = document.createElement("thead")
+    const tr_head = document.createElement("tr")
     const tbody = document.createElement("tbody")
     form.addEventListener("submit", (e) => e.preventDefault())
     const options = ["Agregar", "Documento", "Tipo", "Tipo documento", "Existencia", "Nombre", "Sexo" ,"Grupo Etnico", "Razon Social", "Estado Civil"]
@@ -417,8 +420,9 @@ async function interesados_nuevos (interesadosnuevos) {
         var th = document.createElement("th")
         th.innerHTML = e
         th.id = e.toLowerCase().replaceAll(" ", "_")
-        thead.appendChild(th)
+        tr_head.appendChild(th)
     })
+    thead.appendChild(tr_head)
     tbody.appendChild(await interesados_nuevos_validation(tbody, interesadosnuevos))
     table.appendChild(thead)
     table.appendChild(tbody)
@@ -647,13 +651,15 @@ async function derechonuevo (derecho, derecho_actual) {
     const table = document.createElement("table")
     table.className = "tabla-historial"
     const thead = document.createElement("thead")
+    const tr_head = document.createElement("tr")
     const tbody = document.createElement("tbody")
     const options = ["Guardar","Tipo", "Fracción", "Fecha inicio tenencia", "Descripción"]
     options.forEach((o) => {
         const th = document.createElement("th")
         th.innerText = o
-        thead.appendChild(th)
+        tr_head.appendChild(th)
     })
+    thead.appendChild(tr_head)
     tbody.appendChild(await derechonuevo_validacion(derecho, derecho_actual))
     table.appendChild(thead)
     table.appendChild(tbody)
@@ -735,13 +741,15 @@ async function fuenteadministrativanueva (fuenteadministrativa) {
     const table = document.createElement("table")
     table.className = "tabla-historial"
     const thead = document.createElement("thead")
+    const tr_head = document.createElement("tr")
     const tbody = document.createElement("tbody")
     const options = ["Agregar", "Tipo", "Ente Emisor", "Oficina Origen", "Ciudad Origen", "Observacion", "Numero Fuente", "Estado Disponibilidad", "Tipo Fuente", "Fecha de Documento Fuente"]
     options.forEach((o) => {
         const th = document.createElement("th")
         th.innerText = o
-        thead.appendChild(th)
+        tr_head.appendChild(th)
     })
+    thead.appendChild(tr_head)
     tbody.appendChild(await fuenteadministrativanueva_validacion(tbody, fuenteadministrativa))
     table.appendChild(tbody)
     table.appendChild(thead)
