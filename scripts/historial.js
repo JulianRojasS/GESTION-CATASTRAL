@@ -38,11 +38,74 @@ $(document).ready(async () => {
             const td_button = document.createElement("td")
             const button = document.createElement("button")
             button.innerText = "Ver más"
-            td_button.appendChild(button)
-            tr.appendChild(td_button)
-            tablebody.appendChild(tr)
-        })
-    }
+            button.addEventListener("click", () => {
+                const modal = document.getElementById("modal_history-body")
+                modal.innerHTML = ""
+                document.getElementById("modal_history").style.display = "block"
+                document.body.style.overflow = "hidden"
+                $.ajax({
+                    url: "http://localhost:3000/control_cambios/"+cambio.id,
+                    type: "GET",
+                    datatype: "JSON",
+                    success: (res) => {
+                            const close_modal_button = document.createElement("button")
+                            close_modal_button.id = "close-modal"
+                            close_modal_button.innerText = "x"
+                            close_modal_button.addEventListener("click", () => {
+                                document.getElementById("modal_history").style.display = "none"
+                                document.body.style.overflow = "auto"
+                            })
+                            modal.appendChild(close_modal_button)                    
+                            const modal_header = document.createElement("div")
+                            modal_header.style.display = "flex"
+                            const title = document.createElement("h2")
+                            title.innerText = "Informacion de cambio"
+                            const fecha = document.createElement("h2")
+                            fecha.innerText = res.fecha
+                            modal_header.appendChild(title)
+                            modal_header.appendChild(fecha)
+                            modal.appendChild(modal_header)
+                            const modal_div = document.createElement("div")
+                            modal_div.style.display = "flex"
+                            const cambio = document.createElement("p")
+                            cambio.innerText = res.cambio
+                            const user = document.createElement("p")
+                            user.innerText = res.users.nombre
+                            modal_div.appendChild(cambio)
+                            modal_div.appendChild(user)
+                            modal.appendChild(modal_div) 
+                            const title_estado_antiguo = document.createElement("h2")
+                            title_estado_antiguo.innerText = "Estado antiguo"
+                            modal.appendChild(title_estado_antiguo)
+                            const div_estado_antiguo = document.createElement("div")
+                            var estado_antiguo_data = Object.keys(JSON.parse(res.estado_antiguo))
+                            estado_antiguo_data.forEach((object) => {
+                                const estado_antiguo = JSON.parse(res.estado_antiguo)
+                                const p = document.createElement("p")
+                                p.innerText = `${object}: ${estado_antiguo[object]}`
+                                if (estado_antiguo[object] != null && estado_antiguo[object] != "[object Object]") div_estado_antiguo.appendChild(p)
+                            })
+                            modal.appendChild(div_estado_antiguo)
+                            const title_estado_nuevo = document.createElement("h2")
+                            title_estado_nuevo.innerText = "Estado nuevo"
+                            modal.appendChild(title_estado_nuevo)
+                            const div_estado_nuevo = document.createElement("div")
+                            var estado_nuevo_data = Object.keys(JSON.parse(res.estado_nuevo))
+                            estado_nuevo_data.forEach((object) => {
+                                const estado_nuevo = JSON.parse(res.estado_nuevo)
+                                const p = document.createElement("p")
+                                p.innerText = `${object}: ${estado_nuevo[object]}`
+                                if (estado_antiguo  [object] != null && estado_antiguo    [object] != "[object Object]") div_estado_nuevo.appendChild(p)                                
+                            })
+                            modal.appendChild(div_estado_nuevo)
+                        }
+                    })
+                })
+                td_button.appendChild(button)
+                tr.appendChild(td_button)
+                tablebody.appendChild(tr)
+            })            
+        }
     $("#filtro")[0].style.display = "none"
 
     $("#all").on("click" , async () => {

@@ -79,11 +79,11 @@ $(document).ready(()=> {
             }
         }
     }) 
+
     $("#bg-modal").on("click", () => {
         $("#modal")[0].style.display = "none"
         document.body.style.overflow = "auto"
-    })
-    
+    }) 
 })
 
 
@@ -105,7 +105,6 @@ function validateRequiredData (idList) {
 }
 
 export default function createTable (res, type, predio) {
-    console.log(predio)
     const table = document.createElement("table")
     table.className = "tablas-consultas"
     const head = document.createElement("thead")
@@ -114,13 +113,13 @@ export default function createTable (res, type, predio) {
     var limit = 20
     document.getElementById("back").addEventListener("click", () => {
         if (type == "ric_predio") {
-            if (limit >= 40) {
+            if (limit >= 30) {
                 limit = limit - 20
                 i = limit - 20
                 i = createBodyPredio(res, table, head, body, i, limit, predio)
             }
         } else if (type == "ric_interesado") {
-            if (limit > 40) {
+            if (limit >= 30) {
                 limit = limit - 20
                 i = limit - 20
                 i = createBodyInteresado(res, table, head, body, i, limit, predio)
@@ -435,8 +434,7 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                                         scroll_table_modal.appendChild(modal_table)
                                         modal.appendChild(scroll_table_modal)
                                 }
-                            })
-                            
+                            })                            
                         }
                     })
                 })

@@ -565,3 +565,53 @@ nav a:hover {
     border: 1px solid;
   }
 
+
+
+#modal_history {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#modal_history span {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    opacity: 0.9;
+}
+
+#modal_history #modal_history-body {
+    background-color: #fefefe;
+    margin: 3% 5%;
+    width: 90%;
+    height: 500px;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+#modal_history #modal_history-body h2 {
+    text-align: justify;
+    margin: 20px 0 0 5%;
+}
+
+#modal_history #modal_history-body p {
+    text-align: justify;
+    margin: 5px 0 0 5%;
+}
+
+#close-modal_history {
+    width: 50px;
+    font-size: 40px;
+    height: 50px;
+    background-color: white;
+    border-radius: 10px;
+    border: 0;
+    align-self: flex-end;
+    position: absolute;
+}  
