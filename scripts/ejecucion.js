@@ -17,7 +17,7 @@ $(document).ready(async ()=> {
                     const derecho_registro = await $.ajax({
                         url: "http://localhost:3000/derechosPredio/"+ res[0].t_id,
                         type: "GET",
-                        datatype: "JSON"
+                        datatype: "JSON",
                     })  
                     if (typeof(res[0]) != "undefined") {
                         $.ajax({
@@ -62,7 +62,9 @@ $(document).ready(async ()=> {
                                                                 $.ajax({
                                                                     url: "http://localhost:3000/eliminarCol_rrrfuente/"+rrr.t_id,
                                                                     type: "DELETE",
-                                                                    success: () => generarRegistro(6, null, JSON.stringify(rrr), "Eliminiación de rrrfuente", user)
+                                                                    success: () => {
+                                                                        generarRegistro(6, null, JSON.stringify(rrr), "Eliminiación de rrrfuente", user)
+                                                                    }
                                                                 })
                                                             })
                                                         }
@@ -84,7 +86,9 @@ $(document).ready(async ()=> {
                                                                         ric_fuenteadministrativa: newfuente,
                                                                         ric_derecho: derecho[0]
                                                                     }),
-                                                                    success: (rrrfuente) => generarRegistro(6, null, JSON.stringify(rrrfuente), "Creación de rrrfuente", user),
+                                                                    success: (rrrfuente) => {
+                                                                        generarRegistro(6, null, JSON.stringify(rrrfuente), "Creación de rrrfuente", user)
+                                                                    },
                                                                     contentType: "application/json",
                                                                 })
                                                                 $.ajax({
@@ -116,7 +120,9 @@ $(document).ready(async ()=> {
                                                                 type: "POST",
                                                                 data: data,
                                                                 datatype: "text",
-                                                                success: (newinteresado) => generarRegistro(1, null, JSON.stringify(newinteresado), "Creación de interesado", user)
+                                                                success: (newinteresado) => {
+                                                                    generarRegistro(1, null, JSON.stringify(newinteresado), "Creación de interesado", user)
+                                                                }
                                                             })
                                                         }
                                                         
@@ -161,7 +167,11 @@ $(document).ready(async ()=> {
                                                             url: "http://localhost:3000/col_miembrosAgrupacion/"+agrupacion.t_id,
                                                             type: "POST",
                                                             datatype: "JSON",
-                                                            success: (miembros) => miembros.forEach((miembro) => generarRegistro(4, null, JSON.stringify(miembro), "Creación de miembro", user))
+                                                            success: (miembros) => {
+                                                                miembros.forEach((miembro) => {
+                                                                    generarRegistro(4, null, JSON.stringify(miembro), "Creación de miembro", user)
+                                                                })
+                                                            }
                                                         })   
                                                         derecho[0] = crearDerecho(agrupacion, derecho[0], "agrupacion")
                                                         generarRegistro(2, JSON.stringify(derecho_registro[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
@@ -185,6 +195,7 @@ $(document).ready(async ()=> {
                                                         } else if (natrual == 0 && grupoempresarial > 0) {
                                                             tipo = 305
                                                         }
+        
                                                         $.ajax({
                                                             url: "http://localhost:3000/col_grupointeresadotipo/"+tipo,
                                                             type: "GET",
@@ -222,7 +233,10 @@ $(document).ready(async ()=> {
                                                                                             ric_agrupacioni: agrupacion,
                                                                                             participacion: 1/interesadosnuevos.length
                                                                                         }),
-                                                                                        contentType: "application/json"
+                                                                                        contentType: "application/json",
+                                                                                        success: (response) => {
+        
+                                                                                        }
                                                                                     })
                                                                                 }
                                                                             }) 
@@ -231,7 +245,11 @@ $(document).ready(async ()=> {
                                                                             url: "http://localhost:3000/col_miembrosAgrupacion/"+agrupacion.t_id,
                                                                             type: "POST",
                                                                             datatype: "JSON",
-                                                                            success: (miembros) => miembros.forEach((miembro) => generarRegistro(4, null, JSON.stringify(miembro), "Creación de miembro", user))
+                                                                            success: (miembros) => {
+                                                                                miembros.forEach((miembro) => {
+                                                                                    generarRegistro(4, null, JSON.stringify(miembro), "Creación de miembro", user)
+                                                                                })
+                                                                            }
                                                                         })   
                                                                         crearDerecho(agrupacion, derecho[0], "agrupacion")
                                                                         generarRegistro(2, JSON.stringify(derecho_registro[0]), JSON.stringify(derecho[0]), "Actualización de derecho", user)
@@ -249,7 +267,9 @@ $(document).ready(async ()=> {
                                                                         url: "http://localhost:3000/eliminarCol_rrrfuente/"+rrr.t_id,
                                                                         type: "DELETE",
                                                                         success: (estado) => {
-                                                                            if (estado) generarRegistro(6, null, JSON.stringify(rrr), "Eliminación de rrrfuente", user)                                                                        
+                                                                            if (estado) {
+                                                                                generarRegistro(6, null, JSON.stringify(rrr), "Eliminación de rrrfuente", user)
+                                                                            }
                                                                         }
                                                                     })
                                                                 })
@@ -271,7 +291,9 @@ $(document).ready(async ()=> {
                                                                         ric_fuenteadministrativa: newfuente,
                                                                         ric_derecho: derecho[0]
                                                                     }),
-                                                                    success: (rrrfuente) => generarRegistro(6, null, JSON.stringify(rrrfuente), "Creación de rrrfuente", user),
+                                                                    success: (rrrfuente) => {
+                                                                        generarRegistro(6, null, JSON.stringify(rrrfuente), "Creación de rrrfuente", user)
+                                                                    },
                                                                     contentType: "application/json",
                                                                 })
                                                                     $.ajax({
@@ -284,7 +306,9 @@ $(document).ready(async ()=> {
                                                                         }),
                                                                         success: (response) => {
                                                                             generarRegistro(7, null, JSON.stringify(response), "Creacion de unidad fuente", user)
-                                                                            if (response.t_id != null) alerta("Correcto!", "Los datos se actualizaron", "green")                                                                            
+                                                                            if (response.t_id != null) {
+                                                                                alerta("Correcto!", "Los datos se actualizaron", "green")
+                                                                            }
                                                                         },
                                                                         contentType: "application/json",
                                                                     })
@@ -314,7 +338,9 @@ $(document).ready(async ()=> {
                         url: "http://localhost:3000/derechosPredio/"+ res[0].t_id,
                         type: "GET",
                         datatype: "JSON",
-                        success: (derechoactual) => derecho_actual.push(derechoactual[0])                            
+                        success: (derechoactual) => {
+                            derecho_actual.push(derechoactual[0])                            
+                        }
                     })  
                 }
             })
@@ -406,11 +432,14 @@ async function interesados_nuevos_validation (body, interesadosnuevos) {
     const inputs_tr = document.createElement("tr")
     const button_add = document.createElement("button")
     button_add.innerText = "+"
+    var interesadoretornar = []
     button_add.addEventListener("click", () => {
         if (input_Tipo.value != "undefined" && input_Tipo_documento.value != "undefined" && input_Documento.value != "") {
             var isIn = false;
             for(let un = 0; un < interesadosnuevos.length ; un++) {
-                if (interesadosnuevos[un].interesado.documento_identidad == input_Documento.value) isIn = true;
+                if (interesadosnuevos[un].interesado.documento_identidad == input_Documento.value) {
+                    isIn = true;
+                }
             }
             if (!isIn) {
                 const tr = document.createElement("tr")
@@ -651,7 +680,9 @@ async function derechonuevo_validacion (derecho, derecho_actual) {
                     url: "http://localhost:3000/ric_derechotipo/" + input_tipo.value,
                     type: "GET",
                     datatype: "JSON",
-                    success: (res) => derecho[0].ric_derechotipo = res
+                    success: (res) => {
+                        derecho[0].ric_derechotipo = res
+                    }
                 })
                 derecho[0].fecha_inicio_tenencia = input_fit.value
                 derecho[0].fraccion_derecho = parseFloat(input_fraccion.value)
@@ -863,6 +894,8 @@ async function options (id) {
         url: "http://localhost:3000/" +id+ "s",
         type: "GET",
         datatype: "JSON",
+        success: (res) => {
+        }
     })
     var voidarray = []
     const response = voidarray.concat([{dispname: "Seleccione una opción"}], res)
@@ -874,32 +907,39 @@ function interesado_objeto_respuesta (interesado) {
         url: "http://localhost:3000/ric_interesadotipo/" + interesado.ric_interesadotipo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => interesado.ric_interesadotipo = res
+        success: (res) => {
+            interesado.ric_interesadotipo = res
+        }
     })
     $.ajax({
         url: "http://localhost:3000/ric_interesadodocumentotipo/" + interesado.ric_interesadodocumentotipo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => interesado.ric_interesadodocumentotipo = res
+        success: (res) => {
+            interesado.ric_interesadodocumentotipo = res
+        }
     })
     $.ajax({
         url: "http://localhost:3000/ric_sexotipo/" + interesado.ric_sexotipo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => interesado.ric_sexotipo = res
+        success: (res) => {
+            interesado.ric_sexotipo = res
+        }
     })
     $.ajax({
         url: "http://localhost:3000/ric_grupoetnicotipo/" + interesado.ric_grupoetnicotipo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => interesado.ric_grupoetnicotipo = res
+        success: (res) => {
+            interesado.ric_grupoetnicotipo = res
+        }
     })
     $.ajax({
         url: "http://localhost:3000/ric_estadociviltipo/" + interesado.ric_estadociviltipo,
         type: "GET",
         datatype: "JSON",
         success: (res) => {
-            console.log(res)
             interesado.ric_estadociviltipo = res
         }
     })
@@ -911,19 +951,25 @@ function fuenteadministrativa_objeto_respuesta (fuente) {
         url: "http://localhost:3000/col_fuenteadministrativatipo/"+fuente.col_fuenteadministrativatipo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => fuente.col_fuenteadministrativatipo = res
+        success: (res) => {
+            fuente.col_fuenteadministrativatipo = res
+        }
     })
     $.ajax({
         url: "http://localhost:3000/col_estadodisponibilidadtipo/"+fuente.col_estadodisponibilidadtipo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => fuente.col_estadodisponibilidadtipo = res
+        success: (res) => {
+            fuente.col_estadodisponibilidadtipo = res
+        }
     })
     $.ajax({
         url: "http://localhost:3000/ci_forma_presentacion_codigo/"+fuente.ci_forma_presentacion_codigo,
         type: "GET",
         datatype: "JSON",
-        success: (res) => fuente.ci_forma_presentacion_codigo = res
+        success: (res) => {
+            fuente.ci_forma_presentacion_codigo = res
+        }
     })
     return fuente
 }
@@ -944,16 +990,19 @@ function crearDerecho (interesado, derecho, tipo) {
     })
     return derecho
 }
-
 function validacion_inputs (inputs) {
     const nodes = inputs.childNodes
     var validations = 0
     for (let node = 0; node < nodes.length; node++) {
         if (nodes[node].childNodes[0].className != "noval") {
             if (nodes[node].childNodes[0].nodeName == "INPUT"){
-                if (nodes[node].childNodes[0].value != "") validations++
+                if (nodes[node].childNodes[0].value != "") {
+                    validations++
+                }
             } else if (nodes[node].childNodes[0].nodeName == "SELECT") {
-                if (nodes[node].childNodes[0].value != "undefined") validations++
+                if (nodes[node].childNodes[0].value != "undefined") {
+                    validations++
+                }
             }
         }
     } 

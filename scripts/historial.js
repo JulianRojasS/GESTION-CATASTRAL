@@ -74,30 +74,47 @@ $(document).ready(async () => {
                             modal_div.appendChild(cambio)
                             modal_div.appendChild(user)
                             modal.appendChild(modal_div) 
+                            const changes = document.createElement("div")
+                            changes.id = "changes"
                             const title_estado_antiguo = document.createElement("h2")
                             title_estado_antiguo.innerText = "Estado antiguo"
-                            modal.appendChild(title_estado_antiguo)
+                            changes.appendChild(title_estado_antiguo)
                             const div_estado_antiguo = document.createElement("div")
-                            var estado_antiguo_data = Object.keys(JSON.parse(res.estado_antiguo))
-                            estado_antiguo_data.forEach((object) => {
-                                const estado_antiguo = JSON.parse(res.estado_antiguo)
+                            if (res.estado_antiguo != null) {
+                                var estado_antiguo_data = Object.keys(JSON.parse(res.estado_antiguo))
+                                estado_antiguo_data.forEach((object) => {
+                                    const estado_antiguo = JSON.parse(res.estado_antiguo)
+                                    const p = document.createElement("p")
+                                    p.innerText = `${object}: ${estado_antiguo[object]}`
+                                    if (estado_antiguo[object] == "[object Object]") p.innerText = `${object}: ${estado_antiguo[object].t_id}`
+                                    div_estado_antiguo.appendChild(p)
+                                })
+                            } else {
                                 const p = document.createElement("p")
-                                p.innerText = `${object}: ${estado_antiguo[object]}`
-                                if (estado_antiguo[object] != null && estado_antiguo[object] != "[object Object]") div_estado_antiguo.appendChild(p)
-                            })
-                            modal.appendChild(div_estado_antiguo)
+                                p.innerText = "Ningun cambio que mostrar"
+                                div_estado_antiguo.appendChild(p)
+                            }
+                            changes.appendChild(div_estado_antiguo)
                             const title_estado_nuevo = document.createElement("h2")
                             title_estado_nuevo.innerText = "Estado nuevo"
-                            modal.appendChild(title_estado_nuevo)
+                            changes.appendChild(title_estado_nuevo)
                             const div_estado_nuevo = document.createElement("div")
-                            var estado_nuevo_data = Object.keys(JSON.parse(res.estado_nuevo))
-                            estado_nuevo_data.forEach((object) => {
-                                const estado_nuevo = JSON.parse(res.estado_nuevo)
+                            if (res.estado_nuevo != null) {
+                                var estado_nuevo_data = Object.keys(JSON.parse(res.estado_nuevo))
+                                estado_nuevo_data.forEach((object) => {
+                                    const estado_nuevo = JSON.parse(res.estado_nuevo)
+                                    const p = document.createElement("p")
+                                    p.innerText = `${object}: ${estado_nuevo[object]}`
+                                    if (estado_nuevo[object] == "[object Object]") p.innerText = `${object}: ${estado_nuevo[object].t_id}`
+                                    div_estado_nuevo.appendChild(p)
+                                })
+                            } else {
                                 const p = document.createElement("p")
-                                p.innerText = `${object}: ${estado_nuevo[object]}`
-                                if (estado_antiguo  [object] != null && estado_antiguo    [object] != "[object Object]") div_estado_nuevo.appendChild(p)                                
-                            })
-                            modal.appendChild(div_estado_nuevo)
+                                p.innerText = "Ningun cambio que mostrar"
+                                div_estado_nuevo.appendChild(p)
+                            }
+                            changes.appendChild(div_estado_nuevo)
+                            modal.appendChild(changes)
                         }
                     })
                 })

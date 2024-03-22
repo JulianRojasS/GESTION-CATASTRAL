@@ -588,7 +588,7 @@ nav a:hover {
     background-color: #fefefe;
     margin: 3% 5%;
     width: 90%;
-    height: 500px;
+    height: 540px;
     display: flex;
     position: fixed;
     flex-direction: column;
@@ -615,3 +615,9 @@ nav a:hover {
     align-self: flex-end;
     position: absolute;
 }  
+
+#changes {
+    width: 98%;
+    max-height: 430px;
+    overflow: auto;
+}
