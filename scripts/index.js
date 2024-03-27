@@ -1,5 +1,6 @@
-import { alerta, cerrarSesion, generarRegistro } from "./funciones_generales.js"
+import { alerta, cerrarSesion, generarRegistro, verificarSesion } from "./funciones_generales.js"
 $(document).ready(()=> {
+    verificarSesion()
     const sesion = JSON.parse(sessionStorage.getItem("session"))
     var input_nombre = $("#nombre").val(sesion.nombre)
     var input_email = $("#email").val(sesion.email)

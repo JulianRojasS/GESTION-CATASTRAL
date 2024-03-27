@@ -1,82 +1,53 @@
+import { alerta, verificarSesion } from "./funciones_generales.js"
+
 $(document).ready(()=> {
+    verificarSesion()
     $("#traveltable")[0].style.display = "none"
     $("#table").on("change", (e) => {
         const column = $("#column")[0]
+        var options = []
+        var values = []
         column.innerHTML = ""
         if (e.target.value == "ric_predio") {
-            const options = ["Selecione una opción", "Numero Predial", "Numero Predial Anterior", "Folio Matricula Inmobiliaria", "Codigo Homologado"]
-            options.forEach((e) => {
-                var option = document.createElement("option")
-                option.text = e
-                option.value = `${e.toLowerCase().replaceAll(" ", "_").replace("folio_", "")}`
-                column.appendChild(option)
-            })
+            options = ["Seleccione una opción", "Numero Predial", "Numero Predial Anterior", "Folio Matricula Inmobiliaria", "Codigo Homologado"]
+            values = ["", "numero_predial", "numero_predial_anterior", "folio_matricula_inmobiliaria", "codigo_homologado"]
         } else if (e.target.value == "ric_interesado") {
-            const options = ["Selecione una opción", "Numero de documento", "Nombre Completo"]
-            const values = ["", "documento_identidad", "nombre"]
-            options.forEach((e) => {
-                var option = document.createElement("option")
-                option.text = e
-                option.value = values[options.indexOf(e)]
-                column.appendChild(option)
-            })
+            options = ["Seleccione una opción", "Numero de documento", "Nombre Completo"]
+            values = ["", "documento_identidad", "nombre"]
         } else {
-            var option = document.createElement("option")
-            option.text = "Selecione una opción"
-            option.value = ""
-            column.appendChild(option)
+            options = ["Seleccione una opción"]
+            values = [""]
         }
+        options.forEach((e) => {
+            var option = document.createElement("option")
+            option.text = e
+            option.value = values[options.indexOf(e)]
+            column.appendChild(option)
+        })
     })
     $("#send").on("click", (e) => {
         e.preventDefault()
         if (validateRequiredData(["table", "column", "value"])) {
-            if ($("#table").val() == "ric_interesado") {
-                $.ajax({
-                    url: `http://localhost:3000/interesadosByLike/${$("#column").val()}/${$("#value").val()}`,
-                    type: "POST",
-                    datatype: "JSON",
-                    success: (res) => {
-                        if (document.body.childNodes.length <=  20) {
-                            const results = document.createElement("u")
-                            results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
-                            results.id = "resultados"
-                            document.body.appendChild(results)
-                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
-                        } else {
-                            document.body.removeChild(document.body.childNodes.item(21))
-                            document.body.removeChild(document.body.childNodes.item(20))
-                            const results = document.createElement("u")
-                            results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
-                            results.id = "resultados"
-                            document.body.appendChild(results)
-                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
-                        }
+            $.ajax({
+                url: `http://localhost:3000/${$("#table").val().replace("ric_", "")}sByLike/${$("#column").val()}/${$("#value").val()}`,
+                type: "POST",
+                datatype: "JSON",
+                success: (res) => {
+                    const results = document.createElement("u")
+                    results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
+                    results.id = "resultados"
+                    document.body.appendChild(results)
+                    if (document.body.childNodes.length <=  23) {
+                        createTable(res, $("#table").val(), "http://localhost:3000/predio/")
+                    } else {
+                        document.body.removeChild(document.body.childNodes.item(24))
+                        document.body.removeChild(document.body.childNodes.item(23))
+                        createTable(res, $("#table").val(), "http://localhost:3000/predio/")
                     }
-                })
-            }  else if ($("#table").val() == "ric_predio") {
-                $.ajax({
-                    url: `http://localhost:3000/prediosByLike/${$("#column").val()}/${$("#value").val()}`,
-                    type: "POST",
-                    datatype: "JSON",
-                    success: (res) => {
-                        if (document.body.childNodes.length <=  20) {
-                            const results = document.createElement("u")
-                            results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
-                            results.id = "resultados"
-                            document.body.appendChild(results)
-                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
-                        } else {
-                            document.body.removeChild(document.body.childNodes.item(21))
-                            document.body.removeChild(document.body.childNodes.item(20))
-                            const results = document.createElement("u")
-                            results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
-                            results.id = "resultados"
-                            document.body.appendChild(results)
-                            createTable(res, $("#table").val(), "http://localhost:3000/predio/")
-                        }
-                    }
-                })
-            }
+                }
+            })
+        } else {
+            alerta("Error!", "Debes completar todos los campos", "orange")
         }
     }) 
 
@@ -91,17 +62,9 @@ function validateRequiredData (idList) {
     var t = 0
     for(let i = 0; i < idList.length; i++){
         var element = document.getElementById(idList[i])
-        if (element.value != undefined) {
-            if (element.value != null) {
-                if (element.value != "") {
-                    t++
-                }
-            }
-        }
+        if (element.value != undefined && element.value != null && element.value != "") t++
     }
-    if (t == idList.length) {
-        return true
-    }
+    if (t == idList.length) return true
 }
 
 export default function createTable (res, type, predio) {
@@ -188,9 +151,7 @@ function createBodyPredio (res, table, head, body,  i , limit, predio) {
                     const see = document.createElement("button")
                     see.innerHTML = "Ver mas"
                     button.appendChild(see)
-                    see.addEventListener("click", () => {
-                        window.open(predio+ res[i].t_id)
-                    })
+                    see.addEventListener("click", () => window.open(predio+ res[i].t_id))
                     tr.appendChild(button)
                     body.appendChild(tr)
                     i++
@@ -215,9 +176,7 @@ function createBodyPredio (res, table, head, body,  i , limit, predio) {
                     const see = document.createElement("button")
                     see.innerHTML = "Ver mas"
                     button.appendChild(see)
-                    see.addEventListener("click", () => {
-                        window.open(predio+ e.t_id)
-                    })
+                    see.addEventListener("click", () => window.open(predio+ e.t_id))
                     tr.appendChild(button)
                     body.appendChild(tr)
                 })
@@ -261,7 +220,7 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                 const see = document.createElement("button")
                 see.innerHTML = "Ver mas"
                 button.appendChild(see)
-                see.addEventListener("click", (x) => {
+                see.addEventListener("click", () => {
                     const modal = document.getElementById("modal-body")
                     modal.innerHTML = ""
                     document.getElementById("modal").style.display = "block"
@@ -323,9 +282,7 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                                         const see = document.createElement("td")
                                         see.style.backgroundColor = "black"
                                         const seeButton = document.createElement("button")
-                                        seeButton.addEventListener("click", () => {
-                                            window.open(predio+e.predio, "_blank");
-                                        })
+                                        seeButton.addEventListener("click", () => window.open(predio+e.predio, "_blank"))
                                         seeButton.innerText = "Ver mas"
                                         seeButton.target = "_blank"
                                         see.appendChild(seeButton)
@@ -333,8 +290,8 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                                         modal_tbody.appendChild(tr)
                                     })
                                     modal_table.appendChild(modal_tbody)
-                                        scroll_table_modal.appendChild(modal_table)
-                                        modal.appendChild(scroll_table_modal)
+                                    scroll_table_modal.appendChild(modal_table)
+                                    modal.appendChild(scroll_table_modal)
                                 }
                             })
                             
@@ -359,7 +316,7 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                 const see = document.createElement("button")
                 see.innerHTML = "Ver mas"
                 button.appendChild(see)
-                see.addEventListener("click", (x) => {
+                see.addEventListener("click", () => {
                     const modal = document.getElementById("modal-body")
                     modal.innerHTML = ""
                     document.getElementById("modal").style.display = "block"
@@ -421,9 +378,7 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                                         const see = document.createElement("td")
                                         see.style.backgroundColor = "black"
                                         const seeButton = document.createElement("button")
-                                        seeButton.addEventListener("click", () => {
-                                            window.open(predio+e.predio, "_blank");
-                                        })
+                                        seeButton.addEventListener("click", () => window.open(predio+e.predio, "_blank"))
                                         seeButton.innerText = "Ver mas"
                                         seeButton.target = "_blank"
                                         see.appendChild(seeButton)
@@ -431,8 +386,8 @@ function createBodyInteresado (res, table, head, body,  i , limit, predio) {
                                         modal_tbody.appendChild(tr)
                                     })
                                     modal_table.appendChild(modal_tbody)
-                                        scroll_table_modal.appendChild(modal_table)
-                                        modal.appendChild(scroll_table_modal)
+                                    scroll_table_modal.appendChild(modal_table)
+                                    modal.appendChild(scroll_table_modal)
                                 }
                             })                            
                         }

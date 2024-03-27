@@ -1,4 +1,4 @@
-function verificarSesion () {
+export function verificarSesion () {
     const session = JSON.parse(sessionStorage.getItem("session"))
 
     if(session == null || session == undefined) {
@@ -56,5 +56,3 @@ export function alerta (titulo, mensaje, color) {
     }
     setTimeout(esconder, 2000)
 }
-
-verificarSesion()

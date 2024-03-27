@@ -1,4 +1,7 @@
+import {verificarSesion} from './funciones_generales.js'
+
 $(document).ready(async () => {
+    verificarSesion()
     const tablebody = $("#tablebody")[0]
     var current_info = []
 
@@ -12,10 +15,7 @@ $(document).ready(async () => {
             }
         })
     }
-
     await set_current_info("http://localhost:3000/control_cambioss")
-
-
     function show (info) {
         tablebody.innerHTML = ""
         info.forEach((cambio) => {
