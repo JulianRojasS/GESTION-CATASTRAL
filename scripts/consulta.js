@@ -2,6 +2,7 @@ import { alerta, verificarSesion } from "./funciones_generales.js"
 
 $(document).ready(()=> {
     verificarSesion()
+    console.log(document.body.childNodes.length)
     $("#traveltable")[0].style.display = "none"
     $("#table").on("change", (e) => {
         const column = $("#column")[0]
@@ -37,13 +38,11 @@ $(document).ready(()=> {
                     results.innerHTML = "Se encontraron " + res.length + " coincidencia(s)"
                     results.id = "resultados"
                     document.body.appendChild(results)
-                    if (document.body.childNodes.length <=  23) {
-                        createTable(res, $("#table").val(), "http://localhost:3000/predio/")
-                    } else {
-                        document.body.removeChild(document.body.childNodes.item(24))
-                        document.body.removeChild(document.body.childNodes.item(23))
-                        createTable(res, $("#table").val(), "http://localhost:3000/predio/")
+                    if (document.body.childNodes.length >=  22) {
+                        document.body.removeChild(document.body.childNodes.item(21))
+                        document.body.removeChild(document.body.childNodes.item(20))
                     }
+                    createTable(res, $("#table").val(), "http://localhost:3000/predio/")
                 }
             })
         } else {
